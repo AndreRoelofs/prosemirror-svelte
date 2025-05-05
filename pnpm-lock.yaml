@@ -94,52 +94,7 @@ importers:
         specifier: ^3.1.2
         version: 3.1.3(@types/node@22.15.3)(jiti@2.4.2)
 
-  packages/docs:
-    devDependencies:
-      '@lucide/svelte':
-        specifier: ^0.507.0
-        version: 0.507.0(svelte@5.28.2)
-      '@prosemirror-svelte/bindings':
-        specifier: workspace:*
-        version: link:../prosemirror-svelte
-      '@sveltejs/adapter-static':
-        specifier: ^3.0.8
-        version: 3.0.8(@sveltejs/kit@2.20.8(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.28.2)(vite@6.3.5(@types/node@22.15.3)(jiti@2.4.2)))(svelte@5.28.2)(vite@6.3.5(@types/node@22.15.3)(jiti@2.4.2)))
-      '@sveltejs/kit':
-        specifier: ^2.20.4
-        version: 2.20.8(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.28.2)(vite@6.3.5(@types/node@22.15.3)(jiti@2.4.2)))(svelte@5.28.2)(vite@6.3.5(@types/node@22.15.3)(jiti@2.4.2))
-      '@sveltejs/vite-plugin-svelte':
-        specifier: ^5.0.3
-        version: 5.0.3(svelte@5.28.2)(vite@6.3.5(@types/node@22.15.3)(jiti@2.4.2))
-      eslint:
-        specifier: ^9.25.1
-        version: 9.26.0(jiti@2.4.2)
-      prettier:
-        specifier: ^3.5.3
-        version: 3.5.3
-      prettier-plugin-svelte:
-        specifier: ^3.3.3
-        version: 3.3.3(prettier@3.5.3)(svelte@5.28.2)
-      svelte:
-        specifier: ^5.28.2
-        version: 5.28.2
-      svelte-check:
-        specifier: ^4.1.5
-        version: 4.1.7(picomatch@4.0.2)(svelte@5.28.2)(typescript@5.8.3)
-      tslib:
-        specifier: ^2.8.1
-        version: 2.8.1
-      typescript:
-        specifier: 5.8.3
-        version: 5.8.3
-      vite:
-        specifier: ^6.3.4
-        version: 6.3.5(@types/node@22.15.3)(jiti@2.4.2)
-      vitest:
-        specifier: ^3.1.2
-        version: 3.1.3(@types/node@22.15.3)(jiti@2.4.2)
-
-  packages/prosemirror-svelte:
+  packages/bindings:
     dependencies:
       svelte:
         specifier: ^5.28.2
@@ -166,6 +121,51 @@ importers:
       prettier-plugin-svelte:
         specifier: ^3.3.3
         version: 3.3.3(prettier@3.5.3)(svelte@5.28.2)
+      svelte-check:
+        specifier: ^4.1.5
+        version: 4.1.7(picomatch@4.0.2)(svelte@5.28.2)(typescript@5.8.3)
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
+      typescript:
+        specifier: 5.8.3
+        version: 5.8.3
+      vite:
+        specifier: ^6.3.4
+        version: 6.3.5(@types/node@22.15.3)(jiti@2.4.2)
+      vitest:
+        specifier: ^3.1.2
+        version: 3.1.3(@types/node@22.15.3)(jiti@2.4.2)
+
+  packages/docs:
+    devDependencies:
+      '@lucide/svelte':
+        specifier: ^0.507.0
+        version: 0.507.0(svelte@5.28.2)
+      '@prosemirror-svelte/bindings':
+        specifier: workspace:*
+        version: link:../bindings
+      '@sveltejs/adapter-static':
+        specifier: ^3.0.8
+        version: 3.0.8(@sveltejs/kit@2.20.8(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.28.2)(vite@6.3.5(@types/node@22.15.3)(jiti@2.4.2)))(svelte@5.28.2)(vite@6.3.5(@types/node@22.15.3)(jiti@2.4.2)))
+      '@sveltejs/kit':
+        specifier: ^2.20.4
+        version: 2.20.8(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.28.2)(vite@6.3.5(@types/node@22.15.3)(jiti@2.4.2)))(svelte@5.28.2)(vite@6.3.5(@types/node@22.15.3)(jiti@2.4.2))
+      '@sveltejs/vite-plugin-svelte':
+        specifier: ^5.0.3
+        version: 5.0.3(svelte@5.28.2)(vite@6.3.5(@types/node@22.15.3)(jiti@2.4.2))
+      eslint:
+        specifier: ^9.25.1
+        version: 9.26.0(jiti@2.4.2)
+      prettier:
+        specifier: ^3.5.3
+        version: 3.5.3
+      prettier-plugin-svelte:
+        specifier: ^3.3.3
+        version: 3.3.3(prettier@3.5.3)(svelte@5.28.2)
+      svelte:
+        specifier: ^5.28.2
+        version: 5.28.2
       svelte-check:
         specifier: ^4.1.5
         version: 4.1.7(picomatch@4.0.2)(svelte@5.28.2)(typescript@5.8.3)
