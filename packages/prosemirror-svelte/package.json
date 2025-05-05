@@ -1,5 +1,5 @@
 {
-	"name": "@prosemirror-svelte/library",
+	"name": "@prosemirror-svelte/bindings",
 	"version": "0.0.1",
 	"private": true,
 	"type": "module",
