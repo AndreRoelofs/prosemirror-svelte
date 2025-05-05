@@ -1,6 +1,6 @@
 <script>
 	import { onMount, onDestroy } from 'svelte';
-	import { createSingleLineEditor } from './state';
+	import { createSingleLineEditor } from '../state';
 	import { EditorView } from 'prosemirror-view';
 	import { EditorState } from 'prosemirror-state';
 
@@ -42,10 +42,12 @@
 	});
 
 	/** Tracks whether the editor is empty (i.e. has a content size of 0) */
-	let editorIsEmpty = $derived(editorState
-		? editorState.doc.content.size === 0 ||
-			(editorState.doc.textContent === '' && editorState.doc.content.size < 3)
-		: true);
+	let editorIsEmpty = $derived(
+		editorState
+			? editorState.doc.content.size === 0 ||
+					(editorState.doc.textContent === '' && editorState.doc.content.size < 3)
+			: true
+	);
 
 	/** Dispatches a change event and resets whether the editor state is dirty */
 	const dispatchChangeEvent = () => {
@@ -116,7 +118,7 @@
 	bind:this={editor}
 	onfocus={focusProp}
 	onblur={blurProp}
-	onkeydown={e => e}
+	onkeydown={(e) => e}
 	oncustom={onCustomEvent}
 ></div>
 
