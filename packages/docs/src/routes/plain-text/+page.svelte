@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import type { EditorState } from 'prosemirror-state';
 	import {
 		ProsemirrorEditor,
 		createMultiLineEditor,
@@ -7,50 +8,72 @@
 		clear,
 		selectAll
 	} from '@prosemirror-svelte/bindings';
+	import type { EditorView } from 'prosemirror-view';
 
 	const getEditorState = () => createMultiLineEditor('Go ahead. Edit me!');
 
-	let editor, focusEditor;
-	let editorState = getEditorState();
+	// Reference to the editor element
+	let editorRef: any = $state();
+	// Editor state
+	let editorState = $state(getEditorState());
+	// Reference to the focus and blur functions
+	let focusEditor: (() => void) | undefined = $state();
+	let blurEditor: (() => void) | undefined = $state();
 
-	const handleChange = (event) => {
-		editorState = event.detail.editorState;
+	// Handle editor state changes
+	const handleChange = ({ editorState: newState }: { editorState: EditorState }) => {
+		editorState = newState;
 	};
 
-	const clearEditor = (event) => {
+	// Clear the editor content
+	const clearEditor = () => {
 		editorState = clear(editorState);
-		focusEditor();
+		focusEditor?.();
 	};
 
-	const resetEditor = (event) => {
+	// Reset the editor to its initial state
+	const resetEditor = () => {
 		editorState = getEditorState();
-		focusEditor();
+		focusEditor?.();
 	};
 
-	const selectAllText = (event) => {
+	// Select all text in the editor
+	const selectAllText = () => {
 		editorState = selectAll(editorState);
-		focusEditor();
+		focusEditor?.();
 	};
 
-	$: textContent = editorState ? toPlainText(editorState) : '';
+	// Computed value for the plain text content
+	let textContent = $derived(editorState ? toPlainText(editorState) : '');
 
-	onMount(() => focusEditor());
+	// Focus the editor when the component is mounted
+	onMount(() => {
+		if (focusEditor) focusEditor();
+	});
 </script>
 
 <ProsemirrorEditor
 	{editorState}
-	bind:editor
-	bind:focus={focusEditor}
-	on:change={handleChange}
+	editor={editorRef}
+	change={handleChange}
+	transaction={null}
+	custom={null}
+	focus={function () {
+		focusEditor = this.focus;
+	}}
+	blur={function () {
+		blurEditor = this.blur;
+	}}
 	placeholder="Text goes here"
 	debounceChangeEventsInterval={0}
 />
 
 <div class="controls">
-	<button on:click={clearEditor}>Clear</button>
-	<button on:click={resetEditor}>Reset</button>
-	<button on:click={selectAllText}>Select all</button>
-	<button on:click={focusEditor}>Focus</button>
+	<button onclick={clearEditor}>Clear</button>
+	<button onclick={resetEditor}>Reset</button>
+	<button onclick={selectAllText}>Select all</button>
+	<button onclick={() => focusEditor?.()}>Focus</button>
+	<button onclick={() => blurEditor?.()}>Blur</button>
 </div>
 
 <div class="mirror">Current plain text content of the editor: "{textContent}"</div>
