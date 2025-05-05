@@ -81,8 +81,7 @@ export class SvelteNodeView<A extends Attrs> implements NodeView {
 
 	init = (): this => {
 		const toDOM = this.node.type.spec.toDOM;
-		if (!toDOM)
-			throw Error(`@my-org/core: node "${this.node.type}" was not given a toDOM method!`);
+		if (!toDOM) throw Error(`@my-org/core: node "${this.node.type}" was not given a toDOM method!`);
 		const { dom, contentDOM } = DOMSerializer.renderSpec(document, toDOM(this.node));
 		// this._dom = dom as HTMLElement
 		this.contentDOM = contentDOM;
@@ -141,7 +140,7 @@ export class SvelteNodeView<A extends Attrs> implements NodeView {
 		this.mounted?.$destroy();
 	};
 
-	ignoreMutation = (_mutation: MutationRecord) => true;
+	ignoreMutation = (_mutation: { type: string; target: Node }) => true;
 
 	static fromComponent<A extends Attrs>(
 		editor: Editor,

@@ -65,10 +65,9 @@ export class Editor extends Observable<EditorEvents> {
 			const cmdKey = name as keyof typeof cmds;
 			if (typeof cmds[cmdKey] === 'object') {
 				const subCmds: any = {};
-				for (const subName in cmds[cmdKey]) {
-					// @ts-ignore
-					subCmds[subName] = (...params: any[]) =>
-						self.cmd(cmds[cmdKey][subName](...params) as Cmd);
+				const commandObj = cmds[cmdKey] as Record<string, (...args: any[]) => Cmd>;
+				for (const subName in commandObj) {
+					subCmds[subName] = (...params: any[]) => self.cmd(commandObj[subName](...params) as Cmd);
 				}
 				val[cmdKey] = subCmds;
 			} else {
