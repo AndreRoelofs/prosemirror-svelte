@@ -107,7 +107,7 @@ const createKeyMapConfiguration = (schema) => {
 	return config;
 };
 
-const getKeyMapFromConfig = (config ) => {
+const getKeyMapFromConfig = (config) => {
 	const keys = Object.keys(config);
 	let bindings = {};
 	keys.forEach((key) => {

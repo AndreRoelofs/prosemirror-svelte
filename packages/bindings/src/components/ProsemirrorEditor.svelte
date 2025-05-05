@@ -118,8 +118,7 @@
 	bind:this={editor}
 	onfocus={focusProp}
 	onblur={blurProp}
-	onkeydown={(e) => e}
-	oncustom={onCustomEvent}
+	onkeydown={(e) => e.preventDefault()}
 ></div>
 
 <style>
