@@ -1,173 +1,182 @@
-html, body {
-  position: relative;
-  width: 100%;
-  height: 100%;
+html,
+body {
+	position: relative;
+	width: 100%;
+	height: 100%;
 }
 
 body {
-  color: rgb(68, 68, 68);
-  margin: 0;
-  padding: 8px;
-  box-sizing: border-box;
-  font-family: "Overpass Light", sans-serif;
-  font-weight: lighter;
+	color: rgb(68, 68, 68);
+	margin: 0;
+	padding: 8px;
+	box-sizing: border-box;
+	font-family: 'Overpass Light', sans-serif;
+	font-weight: lighter;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  margin: 0;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	margin: 0;
 }
 
 h1 {
-  font-size: 1.8em;
-  font-weight: normal;
-  text-transform: uppercase;
+	font-size: 1.8em;
+	font-weight: normal;
+	text-transform: uppercase;
 }
 
 h2 {
-  font-size: 1.3em;
-  font-weight: normal;
+	font-size: 1.3em;
+	font-weight: normal;
 }
 
 h3 {
-  font-size: 1.25em;
-  font-weight: bold;
-  border-bottom: 1px solid orangered;
+	font-size: 1.25em;
+	font-weight: bold;
+	border-bottom: 1px solid orangered;
 }
 
 h4 {
-  font-size: .9em;
-  font-weight: normal;
-  color: #adadad;
+	font-size: 0.9em;
+	font-weight: normal;
+	color: #adadad;
 }
 
 p {
-  margin: .75em 0 .5em;
+	margin: 0.75em 0 0.5em;
 }
 
 p:first-child {
-  margin-top: 0;
-  margin-block-start: 0;
+	margin-top: 0;
+	margin-block-start: 0;
 }
 
 p:last-child {
-  margin-bottom: 0;
-  margin-block-end: 0;
+	margin-bottom: 0;
+	margin-block-end: 0;
 }
 
 a {
-  color: orangered;
-  text-decoration: none;
+	color: orangered;
+	text-decoration: none;
 }
 
 a:hover {
-  text-decoration: underline;
+	text-decoration: underline;
 }
 
 a:visited {
 }
 
 label {
-  display: block;
+	display: block;
 }
 
-input, button, select, textarea {
-  font-family: inherit;
-  font-size: inherit;
-  padding: 0.4em;
-  margin: 0 0 0.5em 0;
-  box-sizing: border-box;
-  border: 1px solid #ccc;
-  border-radius: 2px;
+input,
+button,
+select,
+textarea {
+	font-family: inherit;
+	font-size: inherit;
+	padding: 0.4em;
+	margin: 0 0 0.5em 0;
+	box-sizing: border-box;
+	border: 1px solid #ccc;
+	border-radius: 2px;
 }
 
 input:disabled {
-  color: #ccc;
+	color: #ccc;
 }
 
-input[type="range"] {
-  height: 0;
+input[type='range'] {
+	height: 0;
 }
 
 button {
-  color: rgba(255, 255, 255, .7);
-  background-color: orangered;
-  outline: none;
-  border: none;
-  border-radius: .25em;
-  padding: .25em .5em;
+	color: rgba(255, 255, 255, 0.7);
+	background-color: orangered;
+	outline: none;
+	border: none;
+	border-radius: 0.25em;
+	padding: 0.25em 0.5em;
 }
 
 button:not(:disabled):active {
 }
 
 button:hover {
-  color: white;
-  cursor: pointer;
+	color: white;
+	cursor: pointer;
 }
 
 button:focus {
-  color: white;
+	color: white;
 }
 
 button:disabled {
-  color: #adadad;
-  background-color: #777;
-  cursor: auto;
+	color: #adadad;
+	background-color: #777;
+	cursor: auto;
 }
 
 button.editor {
-  background-color: white;
-  color: rgb(68, 68, 68);
+	background-color: white;
+	color: rgb(68, 68, 68);
 }
 
 button.editor:hover {
-  color: rgb(68, 68, 68);
-  cursor: pointer;
+	color: rgb(68, 68, 68);
+	cursor: pointer;
 }
 
 button.editor:focus {
-  color: rgb(68, 68, 68);
+	color: rgb(68, 68, 68);
 }
 
 button.editor.active {
-  color: steelblue;
+	color: steelblue;
 }
 
 div.controls {
-  margin: 1em .5em 1em;
+	margin: 1em 0.5em 1em;
 }
 
 div.mirror {
-  margin-top: 1em;
-  white-space: pre-line;
-  overflow-wrap: break-spaces;
+	margin-top: 1em;
+	white-space: pre-line;
+	overflow-wrap: break-spaces;
 }
 
 label {
-  margin-top: .5em;
+	margin-top: 0.5em;
 }
 
 pre {
-  max-height: 20em;
-  overflow-y: auto;
-  overflow-x: hidden;
-  border-bottom: 2px solid orangered;
-  border-top: 2px solid orangered;
+	max-height: 20em;
+	overflow-y: auto;
+	overflow-x: hidden;
+	border-bottom: 2px solid orangered;
+	border-top: 2px solid orangered;
 }
 
 .ui-editor {
-  box-sizing: border-box;
-  background-color: transparent;
-  padding: 1em;
-  border: 1px solid #efefef;
-  border-radius: .5em;
-  display: inline-block;
-  font: inherit;
-  text-rendering: optimizeLegibility;
-  white-space: pre-line;
-  overflow-wrap: break-spaces;
-  vertical-align: top;
-  width: 100%;
-  min-height: 1.25rem;
-  outline: none;
+	box-sizing: border-box;
+	background-color: transparent;
+	padding: 1em;
+	border: 1px solid #efefef;
+	border-radius: 0.5em;
+	display: inline-block;
+	font: inherit;
+	text-rendering: optimizeLegibility;
+	white-space: pre-line;
+	overflow-wrap: break-spaces;
+	vertical-align: top;
+	width: 100%;
+	min-height: 1.25rem;
+	outline: none;
 }

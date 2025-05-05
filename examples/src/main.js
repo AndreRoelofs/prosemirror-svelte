@@ -1,10 +1,10 @@
 import App from './App.svelte';
 
-const root = document.querySelector("#root");
+const root = document.querySelector('#root');
 
 const app = new App({
-  target: root,
-  props: {}
+	target: root,
+	props: {}
 });
 
 export default app;

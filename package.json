@@ -1,56 +1,70 @@
 {
-  "name": "prosemirror-svelte",
-  "version": "0.2.4",
-  "description": "Svelte bindings for the ProseMirror editor",
-  "author": "Christian Heine",
-  "license": "MIT",
-  "main": "ProsemirrorEditor.svelte",
-  "svelte": "ProsemirrorEditor.svelte",
-  "files": [
-    "helpers/*",
-    "state/*",
-    "ProsemirrorEditor.svelte",
-    "LICENSE"
-  ],
-  "scripts": {
-    "build": "rollup -c",
-    "dev": "rollup -c -w",
-    "start": "sirv examples/public",
-    "test": "echo \"No tests specified (yet)\""
-  },
-  "repository": "https://github.com/christianheine/prosemirror-svelte",
-  "bugs": {
-    "url": "https://github.com/christianheine/prosemirror-svelte/issues"
-  },
-  "keywords": [
-    "svelte",
-    "prosemirror",
-    "editor"
-  ],
-  "dependencies": {
-    "prosemirror-commands": "^1.1.2",
-    "prosemirror-dropcursor": "^1.3.2",
-    "prosemirror-gapcursor": "^1.1.2",
-    "prosemirror-history": "^1.1.3",
-    "prosemirror-inputrules": "^1.1.2",
-    "prosemirror-keymap": "^1.1.3",
-    "prosemirror-model": "^1.8.2",
-    "prosemirror-schema-basic": "^1.1.2",
-    "prosemirror-schema-list": "^1.1.2",
-    "prosemirror-state": "^1.3.2",
-    "prosemirror-view": "^1.13.7"
-  },
-  "devDependencies": {
-    "@rollup/plugin-commonjs": "^11.0.0",
-    "@rollup/plugin-node-resolve": "^6.0.0",
-    "prosemirror-example-setup": "^1.1.2",
-    "rollup": "^1.20.0",
-    "rollup-plugin-css-only": "^2.0.0",
-    "rollup-plugin-livereload": "^1.0.0",
-    "rollup-plugin-svelte": "^6.0.3",
-    "rollup-plugin-terser": "^5.1.2",
-    "sirv-cli": "^0.4.4",
-    "svelte": "^3.0.0"
-  },
-  "packageManager": "pnpm@10.10.0+sha512.d615db246fe70f25dcfea6d8d73dee782ce23e2245e3c4f6f888249fb568149318637dca73c2c5c8ef2a4ca0d5657fb9567188bfab47f566d1ee6ce987815c39"
+	"name": "prosemirror-svelte",
+	"version": "0.2.4",
+	"description": "Svelte bindings for the ProseMirror editor",
+	"author": "Christian Heine",
+	"license": "MIT",
+	"main": "ProsemirrorEditor.svelte",
+	"svelte": "ProsemirrorEditor.svelte",
+	"files": [
+		"helpers/*",
+		"state/*",
+		"ProsemirrorEditor.svelte",
+		"LICENSE"
+	],
+	"scripts": {
+		"build": "rollup -c",
+		"dev": "rollup -c -w",
+		"start": "sirv examples/public",
+		"test": "echo \"No tests specified (yet)\"",
+		"format": "prettier --write .",
+		"commit": "cz"
+	},
+	"repository": "https://github.com/christianheine/prosemirror-svelte",
+	"bugs": {
+		"url": "https://github.com/christianheine/prosemirror-svelte/issues"
+	},
+	"keywords": [
+		"svelte",
+		"prosemirror",
+		"editor"
+	],
+	"dependencies": {
+		"prosemirror-commands": "^1.1.2",
+		"prosemirror-dropcursor": "^1.3.2",
+		"prosemirror-gapcursor": "^1.1.2",
+		"prosemirror-history": "^1.1.3",
+		"prosemirror-inputrules": "^1.1.2",
+		"prosemirror-keymap": "^1.1.3",
+		"prosemirror-model": "^1.8.2",
+		"prosemirror-schema-basic": "^1.1.2",
+		"prosemirror-schema-list": "^1.1.2",
+		"prosemirror-state": "^1.3.2",
+		"prosemirror-view": "^1.13.7"
+	},
+	"devDependencies": {
+		"@rollup/plugin-commonjs": "^11.0.0",
+		"@rollup/plugin-node-resolve": "^6.0.0",
+		"prosemirror-example-setup": "^1.1.2",
+		"rollup": "^1.20.0",
+		"rollup-plugin-css-only": "^2.0.0",
+		"rollup-plugin-livereload": "^1.0.0",
+		"rollup-plugin-svelte": "^6.0.3",
+		"rollup-plugin-terser": "^5.1.2",
+		"sirv-cli": "^0.4.4",
+		"svelte": "^3.0.0",
+		"@commitlint/cli": "^19.8.0",
+		"@commitlint/config-conventional": "^19.8.0",
+		"@commitlint/cz-commitlint": "^19.8.0",
+		"prettier": "^3.5.3",
+		"prettier-plugin-svelte": "^3.3.3",
+		"inquirer": "^9.3.7",
+		"cz-conventional-changelog": "^3.3.0"
+	},
+	"packageManager": "pnpm@10.10.0+sha512.d615db246fe70f25dcfea6d8d73dee782ce23e2245e3c4f6f888249fb568149318637dca73c2c5c8ef2a4ca0d5657fb9567188bfab47f566d1ee6ce987815c39",
+	"config": {
+		"commitizen": {
+			"path": "./node_modules/cz-conventional-changelog"
+		}
+	}
 }

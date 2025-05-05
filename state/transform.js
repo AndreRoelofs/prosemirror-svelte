@@ -1,22 +1,22 @@
-import {EditorState, TextSelection, AllSelection} from "prosemirror-state";
-import * as commands from "prosemirror-commands";
+import { EditorState, TextSelection, AllSelection } from 'prosemirror-state';
+import * as commands from 'prosemirror-commands';
 
 /**
  * Basic implementation to split the editor state at the current selection
  * @param editorState
  * @return {EditorState}
  */
-export const split = editorState => {
-  const transaction = editorState.tr;
+export const split = (editorState) => {
+	const transaction = editorState.tr;
 
-  transaction.split(editorState.selection.from);
+	transaction.split(editorState.selection.from);
 
-  // if text is selected split before and after the text
-  if (!editorState.selection.empty) {
-    transaction.split(transaction.mapping.map(editorState.selection.to));
-  }
+	// if text is selected split before and after the text
+	if (!editorState.selection.empty) {
+		transaction.split(transaction.mapping.map(editorState.selection.to));
+	}
 
-  return editorState.apply(transaction);
+	return editorState.apply(transaction);
 };
 
 /**
@@ -26,10 +26,10 @@ export const split = editorState => {
  * @param to {number}
  */
 export const selectText = (editorState, from, to) => {
-  const selection = TextSelection.create(editorState.doc, from, to);
-  const transaction = editorState.tr;
-  transaction.setSelection(selection);
-  return editorState.apply(transaction);
+	const selection = TextSelection.create(editorState.doc, from, to);
+	const transaction = editorState.tr;
+	transaction.setSelection(selection);
+	return editorState.apply(transaction);
 };
 
 /**
@@ -38,11 +38,11 @@ export const selectText = (editorState, from, to) => {
  * @returns {EditorState}
  */
 export const clear = (editorState) => {
-  const selection = new AllSelection(editorState.doc);
-  const transaction = editorState.tr;
-  transaction.setSelection(selection);
-  transaction.deleteSelection().scrollIntoView();
-  return editorState.apply(transaction);
+	const selection = new AllSelection(editorState.doc);
+	const transaction = editorState.tr;
+	transaction.setSelection(selection);
+	transaction.deleteSelection().scrollIntoView();
+	return editorState.apply(transaction);
 };
 
 /**
@@ -51,10 +51,10 @@ export const clear = (editorState) => {
  * @returns {EditorState}
  */
 export const selectAll = (editorState) => {
-  const selection = new AllSelection(editorState.doc);
-  const transaction = editorState.tr;
-  transaction.setSelection(selection);
-  return editorState.apply(transaction);
+	const selection = new AllSelection(editorState.doc);
+	const transaction = editorState.tr;
+	transaction.setSelection(selection);
+	return editorState.apply(transaction);
 };
 
 /**
@@ -63,10 +63,10 @@ export const selectAll = (editorState) => {
  * @returns {EditorState}
  */
 export const deleteSelection = (editorState) => {
-  if (editorState.selection.empty) return editorState;
-  const transaction = editorState.tr;
-  transaction.deleteSelection().scrollIntoView();
-  return editorState.apply(transaction);
+	if (editorState.selection.empty) return editorState;
+	const transaction = editorState.tr;
+	transaction.deleteSelection().scrollIntoView();
+	return editorState.apply(transaction);
 };
 
 /**
@@ -79,16 +79,16 @@ export const deleteSelection = (editorState) => {
  * @return {EditorState}
  */
 export const replaceTextAtPosition = (editorState, from, to, newText, setSelection = false) => {
-  const transaction = editorState.tr;
+	const transaction = editorState.tr;
 
-  transaction.replaceWith(from, to, editorState.schema.text(newText));
+	transaction.replaceWith(from, to, editorState.schema.text(newText));
 
-  if (setSelection) {
-    const selection = TextSelection.create(transaction.doc, from, from + newText.length);
-    transaction.setSelection(selection);
-  }
+	if (setSelection) {
+		const selection = TextSelection.create(transaction.doc, from, from + newText.length);
+		transaction.setSelection(selection);
+	}
 
-  return editorState.apply(transaction);
+	return editorState.apply(transaction);
 };
 
 /**
@@ -99,13 +99,13 @@ export const replaceTextAtPosition = (editorState, from, to, newText, setSelecti
  * @returns {EditorState}
  */
 export const toggleMark = (editorState, type, attrs = null) => {
-  let newEditorState;
+	let newEditorState;
 
-  const markType = editorState.schema.marks[type];
-  const dispatch = tr => newEditorState = editorState.apply(tr);
+	const markType = editorState.schema.marks[type];
+	const dispatch = (tr) => (newEditorState = editorState.apply(tr));
 
-  if (commands.toggleMark(markType, attrs)(editorState, dispatch)) return newEditorState;
-  else return editorState;
+	if (commands.toggleMark(markType, attrs)(editorState, dispatch)) return newEditorState;
+	else return editorState;
 };
 
 /**
@@ -114,7 +114,7 @@ export const toggleMark = (editorState, type, attrs = null) => {
  * @returns {EditorState}
  */
 export const toggleBold = (editorState) => {
-  return toggleMark(editorState, "strong", null);
+	return toggleMark(editorState, 'strong', null);
 };
 
 /**
@@ -123,7 +123,7 @@ export const toggleBold = (editorState) => {
  * @returns {EditorState}
  */
 export const toggleItalic = (editorState) => {
-  return toggleMark(editorState, "em", null);
+	return toggleMark(editorState, 'em', null);
 };
 
 /**
@@ -134,13 +134,13 @@ export const toggleItalic = (editorState) => {
  * @returns {EditorState}
  */
 export const setBlockType = (editorState, type, attrs) => {
-  let newEditorState;
+	let newEditorState;
 
-  const nodeType = editorState.schema.nodes[type];
-  const dispatch = tr => newEditorState = editorState.apply(tr);
+	const nodeType = editorState.schema.nodes[type];
+	const dispatch = (tr) => (newEditorState = editorState.apply(tr));
 
-  if (commands.setBlockType(nodeType, attrs)(editorState, dispatch)) return newEditorState;
-  else return editorState;
+	if (commands.setBlockType(nodeType, attrs)(editorState, dispatch)) return newEditorState;
+	else return editorState;
 };
 
 /**
@@ -152,14 +152,13 @@ export const setBlockType = (editorState, type, attrs) => {
  * @returns {EditorState}
  */
 export const insertImage = (editorState, attrs, from = null, to = null) => {
+	if (from === null) from = editorState.selection.anchor;
+	if (to === null) to = editorState.selection.head;
 
-  if (from === null) from = editorState.selection.anchor;
-  if (to === null) to = editorState.selection.head;
+	const imageNode = editorState.schema.nodes.image.create(attrs);
 
-  const imageNode = editorState.schema.nodes.image.create(attrs);
+	const transaction = editorState.tr;
+	transaction.replaceWith(from, to, imageNode);
 
-  const transaction = editorState.tr;
-  transaction.replaceWith(from, to, imageNode);
-
-  return editorState.apply(transaction);
+	return editorState.apply(transaction);
 };

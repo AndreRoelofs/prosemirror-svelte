@@ -6,10 +6,10 @@ import { nodes, marks } from 'prosemirror-schema-basic';
  * @type {Schema}
  */
 export const singleLineSchema = new Schema({
-  nodes: {
-    doc: {content: "text*"},
-    text: {inline: true}
-  }
+	nodes: {
+		doc: { content: 'text*' },
+		text: { inline: true }
+	}
 });
 
 /**
@@ -17,19 +17,19 @@ export const singleLineSchema = new Schema({
  * @type {Schema}
  */
 export const multiLineSchema = new Schema({
-  nodes: {
-    doc: {
-      content: "paragraph+"
-    },
-    paragraph: {
-      content: "text*",
-      parseDOM: [{tag: "p"}],
-      toDOM: () => ["p", 0]
-    },
-    text: {
-      inline: true
-    }
-  }
+	nodes: {
+		doc: {
+			content: 'paragraph+'
+		},
+		paragraph: {
+			content: 'text*',
+			parseDOM: [{ tag: 'p' }],
+			toDOM: () => ['p', 0]
+		},
+		text: {
+			inline: true
+		}
+	}
 });
 
 /**
@@ -37,6 +37,6 @@ export const multiLineSchema = new Schema({
  * @type {Schema}
  */
 export const richTextSchema = new Schema({
-  nodes,
-  marks
+	nodes,
+	marks
 });
