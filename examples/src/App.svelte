@@ -10,7 +10,7 @@
 	import ProsemirrorLogo from './components/ProsemirrorLogo.svelte';
 	import SvelteLogo from './components/SvelteLogo.svelte';
 
-	let selectedExample = 'richtext_101';
+	let selectedExample = $state('richtext_101');
 
 	const examples = {
 		plaintext: {

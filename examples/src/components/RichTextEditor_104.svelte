@@ -7,10 +7,10 @@
 
 	const html = '<p>Paste something</p>';
 
-	let focusEditor;
-	let showEditorState = false;
-	let pasteData = null;
-	let numberOfPastes = 0;
+	let focusEditor = $state();
+	let showEditorState = $state(false);
+	let pasteData = $state(null);
+	let numberOfPastes = $state(0);
 
 	const pasty = new PluginKey('pasty');
 
@@ -27,7 +27,7 @@
 
 	const plugins = [handlePaste];
 
-	let editorState = createRichTextEditor(html, plugins);
+	let editorState = $state(createRichTextEditor(html, plugins));
 
 	function handleChange(event) {
 		editorState = event.detail.editorState;
@@ -53,13 +53,13 @@
 <ProsemirrorEditor
 	{editorState}
 	bind:focus={focusEditor}
-	on:change={handleChange}
+	change={handleChange}
 	placeholder="Go ahead and edit me!"
 />
 
 <div class="controls">
-	<button on:click={clearEditor}>Clear</button>
-	<button on:click={resetEditor}>Reset</button>
+	<button onclick={clearEditor}>Clear</button>
+	<button onclick={resetEditor}>Reset</button>
 </div>
 
 <h2>Last paste event:</h2>

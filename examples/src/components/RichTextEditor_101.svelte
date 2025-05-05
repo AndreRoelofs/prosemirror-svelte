@@ -14,8 +14,8 @@
 <p><b>Ctrl-Shift-0</b> will set the block type to paragraph.</p>
 <p><b>Ctrl-Shift-1,2,3...</b> will set the block type to heading 1,2,3...</p>`;
 
-	let focusEditor;
-	let editorState = createRichTextEditor(html);
+	let focusEditor = $state();
+	let editorState = $state(createRichTextEditor(html));
 
 	function handleChange(event) {
 		editorState = event.detail.editorState;
@@ -45,13 +45,13 @@
 <ProsemirrorEditor
 	{editorState}
 	bind:focus={focusEditor}
-	on:change={handleChange}
+	change={handleChange}
 	placeholder="Go ahead and edit me!"
 />
 
 <div class="controls">
-	<button on:click={clearEditor}>Clear</button>
-	<button on:click={resetEditor}>Reset</button>
-	<button on:click={showHtml}>Show HTML</button>
-	<button on:click={showText}>Show Text</button>
+	<button onclick={clearEditor}>Clear</button>
+	<button onclick={resetEditor}>Reset</button>
+	<button onclick={showHtml}>Show HTML</button>
+	<button onclick={showText}>Show Text</button>
 </div>
