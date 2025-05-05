@@ -21,7 +21,7 @@
 
 	let focusEditor: (() => void) | undefined = $state();
 
-	let editorState = $state(createRichTextEditor(html));
+	let editorState = $state();
 
 	const handleChange = ({ editorState: newState }: { editorState: EditorState }) => {
 		editorState = newState;
@@ -44,7 +44,10 @@
 		alert(toPlainText(editorState));
 	}
 
-	onMount(() => focusEditor?.());
+	onMount(() => {
+		editorState = createRichTextEditor(html);
+		focusEditor?.();
+	});
 </script>
 
 <ProsemirrorEditor
