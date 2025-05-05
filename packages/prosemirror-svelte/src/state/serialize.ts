@@ -10,7 +10,7 @@ import { multiLineSchema } from './schemas';
  * @param plugins Additional plugins
  * @returns {instance|EditorState}
  */
-export const fromJSON = (json, schema = multiLineSchema, plugins = []) => {
+export const fromJSON = (json: any, schema = multiLineSchema, plugins = []) => {
 	return EditorState.fromJSON(
 		{
 			schema,
@@ -25,7 +25,7 @@ export const fromJSON = (json, schema = multiLineSchema, plugins = []) => {
  * @param editorState {EditorState}
  * @returns Object
  */
-export const toJSON = (editorState) => {
+export const toJSON = (editorState: EditorState) => {
 	return editorState ? editorState.toJSON() : null;
 };
 
@@ -34,7 +34,7 @@ export const toJSON = (editorState) => {
  * @param editorState {EditorState}
  * @returns {string}
  */
-export const toHTML = (editorState) => {
+export const toHTML = (editorState: EditorState) => {
 	const serializer = DOMSerializer.fromSchema(editorState.schema);
 	const fragment = serializer.serializeFragment(editorState.doc.content);
 	const node = document.createElement('div');
@@ -47,7 +47,7 @@ export const toHTML = (editorState) => {
  * @param editorState {EditorState}
  * @return {string}
  */
-export const toPlainText = (editorState) => {
+export const toPlainText = (editorState: EditorState) => {
 	if (editorState.doc.childCount === 0) {
 		return '';
 	} else if (editorState.doc.childCount === 1) {

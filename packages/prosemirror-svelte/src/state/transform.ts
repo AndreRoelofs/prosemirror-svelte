@@ -6,7 +6,7 @@ import * as commands from 'prosemirror-commands';
  * @param editorState
  * @return {EditorState}
  */
-export const split = (editorState) => {
+export const split = (editorState: EditorState) => {
 	const transaction = editorState.tr;
 
 	transaction.split(editorState.selection.from);
@@ -25,7 +25,7 @@ export const split = (editorState) => {
  * @param from {number}
  * @param to {number}
  */
-export const selectText = (editorState, from, to) => {
+export const selectText = (editorState: EditorState, from: number, to: number) => {
 	const selection = TextSelection.create(editorState.doc, from, to);
 	const transaction = editorState.tr;
 	transaction.setSelection(selection);
@@ -37,7 +37,7 @@ export const selectText = (editorState, from, to) => {
  * @param editorState
  * @returns {EditorState}
  */
-export const clear = (editorState) => {
+export const clear = (editorState: EditorState) => {
 	const selection = new AllSelection(editorState.doc);
 	const transaction = editorState.tr;
 	transaction.setSelection(selection);
@@ -50,7 +50,7 @@ export const clear = (editorState) => {
  * @param editorState
  * @returns {EditorState}
  */
-export const selectAll = (editorState) => {
+export const selectAll = (editorState: EditorState) => {
 	const selection = new AllSelection(editorState.doc);
 	const transaction = editorState.tr;
 	transaction.setSelection(selection);
@@ -62,7 +62,7 @@ export const selectAll = (editorState) => {
  * @param editorState
  * @returns {EditorState}
  */
-export const deleteSelection = (editorState) => {
+export const deleteSelection = (editorState: EditorState) => {
 	if (editorState.selection.empty) return editorState;
 	const transaction = editorState.tr;
 	transaction.deleteSelection().scrollIntoView();
@@ -78,7 +78,13 @@ export const deleteSelection = (editorState) => {
  * @param setSelection {boolean} Update the selection to select the changed content
  * @return {EditorState}
  */
-export const replaceTextAtPosition = (editorState, from, to, newText, setSelection = false) => {
+export const replaceTextAtPosition = (
+	editorState: EditorState,
+	from: number,
+	to: number,
+	newText: string,
+	setSelection = false
+) => {
 	const transaction = editorState.tr;
 
 	transaction.replaceWith(from, to, editorState.schema.text(newText));
@@ -98,11 +104,11 @@ export const replaceTextAtPosition = (editorState, from, to, newText, setSelecti
  * @param attrs {Object}
  * @returns {EditorState}
  */
-export const toggleMark = (editorState, type, attrs = null) => {
+export const toggleMark = (editorState: EditorState, type: string, attrs = null) => {
 	let newEditorState;
 
 	const markType = editorState.schema.marks[type];
-	const dispatch = (tr) => (newEditorState = editorState.apply(tr));
+	const dispatch = (tr: any) => (newEditorState = editorState.apply(tr));
 
 	if (commands.toggleMark(markType, attrs)(editorState, dispatch)) return newEditorState;
 	else return editorState;
@@ -113,7 +119,7 @@ export const toggleMark = (editorState, type, attrs = null) => {
  * @param editorState {EditorState}
  * @returns {EditorState}
  */
-export const toggleBold = (editorState) => {
+export const toggleBold = (editorState: EditorState) => {
 	return toggleMark(editorState, 'strong', null);
 };
 
@@ -122,7 +128,7 @@ export const toggleBold = (editorState) => {
  * @param editorState {EditorState}
  * @returns {EditorState}
  */
-export const toggleItalic = (editorState) => {
+export const toggleItalic = (editorState: EditorState) => {
 	return toggleMark(editorState, 'em', null);
 };
 
@@ -133,11 +139,11 @@ export const toggleItalic = (editorState) => {
  * @param attrs {Object}
  * @returns {EditorState}
  */
-export const setBlockType = (editorState, type, attrs) => {
+export const setBlockType = (editorState: EditorState, type: string, attrs: any) => {
 	let newEditorState;
 
 	const nodeType = editorState.schema.nodes[type];
-	const dispatch = (tr) => (newEditorState = editorState.apply(tr));
+	const dispatch = (tr: any) => (newEditorState = editorState.apply(tr));
 
 	if (commands.setBlockType(nodeType, attrs)(editorState, dispatch)) return newEditorState;
 	else return editorState;
@@ -151,9 +157,14 @@ export const setBlockType = (editorState, type, attrs) => {
  * @param to {number|null}
  * @returns {EditorState}
  */
-export const insertImage = (editorState, attrs, from = null, to = null) => {
-	if (from === null) from = editorState.selection.anchor;
-	if (to === null) to = editorState.selection.head;
+export const insertImage = (
+	editorState: EditorState,
+	attrs: any,
+	from: number | null = null,
+	to: number | null = null
+) => {
+	from = from ?? editorState.selection.anchor;
+	to = to ?? editorState.selection.head;
 
 	const imageNode = editorState.schema.nodes.image.create(attrs);
 

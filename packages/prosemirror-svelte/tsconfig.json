@@ -8,7 +8,6 @@
 		"target": "ESNext",
 
 		"outDir": "./build",
-		"rootDir": "./src",
 		"strict": true,
 		"esModuleInterop": true,
 		"skipLibCheck": true,

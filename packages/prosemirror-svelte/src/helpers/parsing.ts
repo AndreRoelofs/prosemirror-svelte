@@ -1,19 +1,19 @@
 import { EditorState } from 'prosemirror-state';
-import { Mark, NodeType } from 'prosemirror-model';
+import { Mark, NodeType, ResolvedPos } from 'prosemirror-model';
 
-const mapFromMarks = (marks) => {
+const mapFromMarks = (marks: Mark[] | null) => {
 	if (!marks) return null;
 
-	const map = {};
-	for (let i = 0; i < marks.length; i++) {
-		map[marks[i].type.name] = marks[i];
+	const map: Record<string, Mark> = {};
+	for (const mark of marks) {
+		map[mark.type.name] = mark;
 	}
 	return map;
 };
 
-const getMarksForResolvedPosition = (resolvedPosition) => {
+const getMarksForResolvedPosition = (resolvedPosition: ResolvedPos) => {
 	const marks = resolvedPosition.marks();
-	return mapFromMarks(marks);
+	return mapFromMarks(Array.from(marks));
 };
 
 /**
@@ -21,12 +21,12 @@ const getMarksForResolvedPosition = (resolvedPosition) => {
  * @param editorState {EditorState}
  * @return {{activeMarks: Object<string,Mark>, marksInSelection: Object<string,Mark>,, marksAtHead: Object<string,Mark>, storedMarks: Object}}
  */
-export const getCurrentMarks = (editorState) => {
+export const getCurrentMarks = (editorState: EditorState) => {
 	const { $head, empty, from, to } = editorState.selection;
 
-	let marksInSelection = {};
+	const marksInSelection: Record<string, Mark> = {};
 
-	const storedMarks = mapFromMarks(editorState.storedMarks);
+	const storedMarks = mapFromMarks(Array.from(editorState.storedMarks ?? []));
 	const marksAtHead = getMarksForResolvedPosition($head);
 
 	if (!empty) {
@@ -37,9 +37,7 @@ export const getCurrentMarks = (editorState) => {
 		});
 	}
 
-	const activeMarks = storedMarks
-		? storedMarks
-		: Object.assign({}, marksInSelection, marksAtHead);
+	const activeMarks = storedMarks ?? { ...marksInSelection, ...marksAtHead };
 
 	return {
 		activeMarks,
@@ -54,7 +52,7 @@ export const getCurrentMarks = (editorState) => {
  * @param editorState {EditorState}
  * @returns {{type: NodeType, attrs: Object}}
  */
-export const getNodeTypeAtSelectionHead = (editorState) => {
+export const getNodeTypeAtSelectionHead = (editorState: EditorState) => {
 	const { $head } = editorState.selection;
 	const node = $head.node();
 
