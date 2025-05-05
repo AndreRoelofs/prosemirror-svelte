@@ -19,6 +19,7 @@
 	"scripts": {
 		"build": "vite build",
 		"watch": "rimraf dist && vite build --watch",
+		"check-types": "tsc --noEmit",
 		"testd": "vitest",
 		"test": "vitest run"
 	},
