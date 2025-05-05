@@ -2,7 +2,7 @@
 	"name": "prosemirror-svelte",
 	"version": "0.2.4",
 	"description": "Svelte bindings for the ProseMirror editor",
-	"author": "Christian Heine",
+	"author": "Andre Roelofs",
 	"license": "MIT",
 	"main": "ProsemirrorEditor.svelte",
 	"svelte": "ProsemirrorEditor.svelte",
@@ -20,9 +20,9 @@
 		"format": "prettier --write .",
 		"commit": "cz"
 	},
-	"repository": "https://github.com/christianheine/prosemirror-svelte",
+	"repository": "https://github.com/andreroelofs/prosemirror-svelte",
 	"bugs": {
-		"url": "https://github.com/christianheine/prosemirror-svelte/issues"
+		"url": "https://github.com/andreroelofs/prosemirror-svelte/issues"
 	},
 	"keywords": [
 		"svelte",
