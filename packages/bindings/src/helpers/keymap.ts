@@ -12,18 +12,32 @@ import {
 import { wrapInList, splitListItem, liftListItem, sinkListItem } from 'prosemirror-schema-list';
 import { undo, redo } from 'prosemirror-history';
 import { undoInputRule } from 'prosemirror-inputrules';
+import { Schema } from 'prosemirror-model';
 import { richTextSchema } from '../state/schemas';
 import { keymap } from 'prosemirror-keymap';
+import { EditorState, Transaction } from 'prosemirror-state';
+
+// Command type definition
+type Command = (state: EditorState, dispatch: ((tr: Transaction) => void) | undefined) => boolean;
+
+interface KeyMapEntry {
+	combo: string;
+	command: Command;
+}
+
+interface KeyMapConfig {
+	[key: string]: KeyMapEntry[];
+}
 
 const mac = typeof navigator != 'undefined' ? /Mac/.test(navigator.platform) : false;
 
-const addKey = (keyMap, name, combo, command) => {
+const addKey = (keyMap: KeyMapConfig, name: string, combo: string, command: Command): void => {
 	if (!keyMap[name]) keyMap[name] = [];
 	keyMap[name].push({ combo, command });
 };
 
-const createKeyMapConfiguration = (schema) => {
-	let config = {};
+const createKeyMapConfiguration = (schema: Schema): KeyMapConfig => {
+	let config: KeyMapConfig = {};
 
 	addKey(config, 'undo', 'Mod-z', undo);
 
@@ -46,8 +60,7 @@ const createKeyMapConfiguration = (schema) => {
 		addKey(config, 'toggleMarkEm', 'Mod-i', toggleMark(schema.marks.em));
 		addKey(config, 'toggleMarkEm', 'Mod-I', toggleMark(schema.marks.em));
 	}
-	if (!!schema.marks.code)
-		addKey(config, 'toggleMarkCode', 'Mod-`', toggleMark(schema.marks.code));
+	if (!!schema.marks.code) addKey(config, 'toggleMarkCode', 'Mod-`', toggleMark(schema.marks.code));
 
 	if (!!schema.nodes.bullet_list)
 		addKey(config, 'wrapInListUnordered', 'Shift-Ctrl-8', wrapInList(schema.nodes.bullet_list));
@@ -61,7 +74,9 @@ const createKeyMapConfiguration = (schema) => {
 	if (!!schema.nodes.hard_break) {
 		let br = schema.nodes.hard_break;
 		const cmd = chainCommands(exitCode, (state, dispatch) => {
-			dispatch(state.tr.replaceSelectionWith(br.create()).scrollIntoView());
+			if (dispatch) {
+				dispatch(state.tr.replaceSelectionWith(br.create()).scrollIntoView());
+			}
 			return true;
 		});
 
@@ -76,12 +91,7 @@ const createKeyMapConfiguration = (schema) => {
 		addKey(config, 'sinkListItem', 'Mod-]', sinkListItem(schema.nodes.list_item));
 	}
 	if (!!schema.nodes.paragraph)
-		addKey(
-			config,
-			'setBlockTypeParagraph',
-			'Shift-Ctrl-0',
-			setBlockType(schema.nodes.paragraph)
-		);
+		addKey(config, 'setBlockTypeParagraph', 'Shift-Ctrl-0', setBlockType(schema.nodes.paragraph));
 
 	if (!!schema.nodes.code_block)
 		addKey(config, 'setBlockTypeCode', 'Shift-Ctrl-\\', setBlockType(schema.nodes.code_block));
@@ -99,7 +109,9 @@ const createKeyMapConfiguration = (schema) => {
 	if (!!schema.nodes.horizontal_rule) {
 		addKey(config, 'insertHorizontalRuler', 'Mod-_', (state, dispatch) => {
 			let hr = schema.nodes.horizontal_rule;
-			dispatch(state.tr.replaceSelectionWith(hr.create()).scrollIntoView());
+			if (dispatch) {
+				dispatch(state.tr.replaceSelectionWith(hr.create()).scrollIntoView());
+			}
 			return true;
 		});
 	}
@@ -107,9 +119,9 @@ const createKeyMapConfiguration = (schema) => {
 	return config;
 };
 
-const getKeyMapFromConfig = (config) => {
+const getKeyMapFromConfig = (config: KeyMapConfig) => {
 	const keys = Object.keys(config);
-	let bindings = {};
+	let bindings: { [key: string]: Command } = {};
 	keys.forEach((key) => {
 		config[key].forEach((entry) => {
 			bindings[entry.combo] = entry.command;
