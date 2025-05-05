@@ -5,18 +5,9 @@
 	"author": "Andre Roelofs",
 	"license": "MIT",
 	"type": "module",
-	"main": "ProsemirrorEditor.svelte",
-	"svelte": "ProsemirrorEditor.svelte",
-	"files": [
-		"helpers/*",
-		"state/*",
-		"ProsemirrorEditor.svelte",
-		"LICENSE"
-	],
 	"scripts": {
-		"build": "vite build",
-		"dev": "vite ",
-		"start": "sirv examples/public",
+		"build": "turbo run build ",
+		"dev": "turbo run dev",
 		"test": "echo \"No tests specified (yet)\"",
 		"format": "prettier --write .",
 		"commit": "cz"
@@ -44,15 +35,7 @@
 		"prosemirror-view": "^1.13.7"
 	},
 	"devDependencies": {
-		"@rollup/plugin-commonjs": "^11.0.0",
-		"@rollup/plugin-node-resolve": "^6.0.0",
 		"prosemirror-example-setup": "^1.1.2",
-		"rollup": "^1.20.0",
-		"rollup-plugin-css-only": "^2.0.0",
-		"rollup-plugin-livereload": "^1.0.0",
-		"rollup-plugin-svelte": "^6.0.3",
-		"rollup-plugin-terser": "^5.1.2",
-		"sirv-cli": "^0.4.4",
 		"svelte": "^5.28.2",
 		"@sveltejs/vite-plugin-svelte": "^5.0.3",
 		"@commitlint/cli": "^19.8.0",
@@ -63,8 +46,9 @@
 		"inquirer": "^9.3.7",
 		"eslint": "^9.25.1",
 		"cz-conventional-changelog": "^3.3.0",
-        "typescript": "5.8.3",
-        "tslib": "^2.8.1",
+		"typescript": "5.8.3",
+		"tslib": "^2.8.1",
+		"turbo": "^2.5.2",
 		"vite": "^6.3.4",
 		"vitest": "^3.1.2"
 	},
