@@ -16,6 +16,7 @@
 	<button onclick={() => navigate('/examples/images')}> Images </button>
 	<button onclick={() => navigate('/examples/transactions')}> Transactions </button>
 	<button onclick={() => navigate('/examples/plugins')}> Plugins </button>
+	<button onclick={() => navigate('/examples/custom-components')}> Custom Components </button>
 </div>
 
 {@render children?.()}
