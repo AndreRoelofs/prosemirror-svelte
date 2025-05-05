@@ -1,11 +1,5 @@
 {
-	"cSpell.words": [
-        "dropcursor",
-        "gapcursor",
-        "inputrules",
-        "keymap",
-        "prosemirror"
-    ],
+	"cSpell.words": ["dropcursor", "gapcursor", "inputrules", "keymap", "prosemirror"],
 
 	"eslint.useFlatConfig": true,
 	"eslint.validate": ["svelte"],
