@@ -1,5 +1,5 @@
 {
-	"name": "@prosemirror-svelte/core",
+	"name": "@prosemirror-svelte/old-core",
 	"version": "0.0.1",
 	"main": "dist/index.cjs",
 	"module": "dist/index.js",
@@ -20,6 +20,7 @@
 		"build": "vite build",
 		"watch": "rimraf dist && vite build --watch",
 		"check-types": "tsc --noEmit",
+		"testd": "vitest",
 		"test": "vitest run"
 	},
 	"peerDependencies": {},

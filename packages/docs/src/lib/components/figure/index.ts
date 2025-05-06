@@ -1,0 +1,1 @@
+export { figureExtension } from './extension'
