@@ -30,8 +30,11 @@
 
 	interface $$Props extends NodeProps<ImageAttrs> {}
 
-	export let node: PMNode | undefined, attrs: ImageAttrs, contentDOM: (node: HTMLElement) => void;
-	/** */
+	const { node, attrs, contentDOM } = $props<{
+		node: PMNode | undefined;
+		attrs: ImageAttrs;
+		contentDOM: (node: HTMLElement) => void;
+	}>();
 </script>
 
 <img src={attrs.src} alt={attrs.alt} title={attrs.title} />

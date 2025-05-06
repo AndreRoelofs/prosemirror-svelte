@@ -25,8 +25,11 @@
 
 	interface $$Props extends NodeProps<FigureAttrs> {}
 
-	export let node: PMNode | undefined, attrs: FigureAttrs, contentDOM: (node: HTMLElement) => void;
-	/** */
+	const { node, attrs, contentDOM } = $props<{
+		node: PMNode | undefined;
+		attrs: FigureAttrs;
+		contentDOM: (node: HTMLElement) => void;
+	}>();
 </script>
 
 <figure id={attrs.id} data-hole />

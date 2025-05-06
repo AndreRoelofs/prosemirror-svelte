@@ -23,11 +23,13 @@
 	};
 
 	function clearEditor(event: MouseEvent) {
+		if (!editorState) return;
 		editorState = clear(editorState);
 		focusEditor?.();
 	}
 
 	function resetEditor(event: MouseEvent) {
+		if (!editorState) return;
 		editorState = createRichTextEditor(html);
 		focusEditor?.();
 	}

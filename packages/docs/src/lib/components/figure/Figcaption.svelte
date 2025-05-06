@@ -22,10 +22,11 @@
 
 	interface $$Props extends NodeProps<FigcaptionAttrs> {}
 
-	export let node: PMNode | undefined,
-		attrs: FigcaptionAttrs,
+	const { node, attrs, contentDOM } = $props<{
+		node: PMNode | undefined;
+		attrs: FigcaptionAttrs;
 		contentDOM: (node: HTMLElement) => void;
-	/** */
+	}>();
 </script>
 
 <!-- svelte-ignore a11y-structure -->
