@@ -10,12 +10,14 @@
 		ref?: HTMLDivElement | null;
 		class?: ClassValue;
 		placeholder?: string;
+		extensions?: any[];
 	}
 
 	let {
 		ref = $bindable(null),
 		class: className,
 		placeholder = 'Default placeholder',
+		extensions = [],
 		...restProps
 	}: Props = $props();
 
