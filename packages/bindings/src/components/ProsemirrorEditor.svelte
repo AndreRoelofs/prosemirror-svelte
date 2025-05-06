@@ -1,106 +1,36 @@
-<script>
+<script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
-	import { createSingleLineEditor } from '../state';
+	import { EditorState, TextSelection, AllSelection } from 'prosemirror-state';
 	import { EditorView } from 'prosemirror-view';
-	import { EditorState } from 'prosemirror-state';
+	import { schema } from 'prosemirror-schema-basic';
+	import type { HTMLAttributes, ClassValue } from 'svelte/elements';
+	import { corePlugins, richTextPlugins } from '../helpers';
+
+	interface Props extends HTMLAttributes<HTMLDivElement> {
+		ref?: HTMLDivElement | null;
+		class?: ClassValue;
+		placeholder?: string;
+	}
 
 	let {
-		className = 'ui-editor',
-		editorState = createSingleLineEditor(),
-		placeholder = '',
-		view = null,
-		debounceChangeEventsInterval = 50,
-		editor = null,
-		editorViewProps = {},
-		change,
-		transaction,
-		custom,
-		focus: focusProp,
-		blur: blurProp
-	} = $props();
+		ref = $bindable(null),
+		class: className,
+		placeholder = 'Default placeholder',
+		...restProps
+	}: Props = $props();
 
-	/** Focus the content-editable div */
-	export function focus() {
-		view && view.focus();
-	}
-
-	/** Blur the content-editable div */
-	export function blur() {
-		editor && editor.blur();
-	}
-
-	/** Tracks the timeout id of the last time the change event was dispatched */
-	let dispatchLastEditTimeout = $state();
-
-	/** Tracks whether changes to editor state were not yet dispatched */
-	let isDirty = $state(false);
-
-	$effect(() => {
-		if (view && editorState && !isDirty) {
-			view.updateState(editorState); // necessary to keep the DOM in sync with the editor state on external updates
-		}
-	});
-
-	/** Tracks whether the editor is empty (i.e. has a content size of 0) */
-	let editorIsEmpty = $derived(
-		editorState
-			? editorState.doc.content.size === 0 ||
-					(editorState.doc.textContent === '' && editorState.doc.content.size < 3)
-			: true
-	);
-
-	/** Dispatches a change event and resets whether the editor state is dirty */
-	const dispatchChangeEvent = () => {
-		if (isDirty) {
-			change?.({ editorState });
-			isDirty = false;
-		}
-	};
-
-	/**
-	 * Captures custom events from plugins and dispatches them with a new event type (based on event.detail.type)
-	 * @param event {CustomEvent}
-	 */
-	const onCustomEvent = (event) => {
-		if (event.detail) {
-			const { type, ...detail } = event.detail;
-			if (type) {
-				// If there's a specific callback for this type, use it
-				const callback = eval(type);
-				if (typeof callback === 'function') {
-					callback(detail);
-				}
-			} else {
-				custom?.(detail);
-			}
-		}
-	};
+	let view: EditorView | null = null;
 
 	onMount(() => {
 		view = new EditorView(
-			{ mount: editor },
 			{
-				...editorViewProps,
-				state: editorState,
-				dispatchTransaction: (tx) => {
-					editorState = view.state.apply(tx);
-
-					const contentHasChanged = !editorState.doc.eq(view.state.doc);
-
-					if (contentHasChanged) {
-						isDirty = true;
-						if (debounceChangeEventsInterval > 0) {
-							if (dispatchLastEditTimeout) clearTimeout(dispatchLastEditTimeout);
-							dispatchLastEditTimeout = setTimeout(dispatchChangeEvent, 50);
-						} else {
-							setTimeout(dispatchChangeEvent, 0);
-						}
-					}
-
-					view.updateState(editorState);
-
-					transaction?.({ view, editorState, isDirty, contentHasChanged });
-				}
+				mount: ref!
+			},
+			{
+				state: EditorState.create({
+					schema,
+					plugins: [...corePlugins, ...richTextPlugins]
+				})
 			}
 		);
 	});
@@ -108,22 +38,51 @@
 	onDestroy(() => {
 		view?.destroy();
 	});
+
+	/**
+	 * Clears the document to a single empty paragraph, then focuses the editor
+	 * This function is exposed to parent components via `bind:this`.
+	 */
+	export function clear() {
+		if (!view) return;
+		const state = view.state;
+		const selection = new AllSelection(state.doc);
+		const transaction = state.tr;
+		transaction.setSelection(selection);
+		transaction.deleteSelection().scrollIntoView();
+		view.updateState(state.apply(transaction));
+
+		// const tr = state.tr;
+		// tr.replaceWith(0, state.doc.content.size, schema.node('paragraph'));
+		// view.dispatch(tr);
+		// view.focus();
+	}
+
+	/**
+	 * Programmatically focus the editor - exposed to parents.
+	 */
+	export function focus() {
+		view?.focus();
+	}
 </script>
 
+<!-- The actual DOM node ProseMirror will manage -->
 <div
-	class={className}
+	bind:this={ref}
+	contenteditable
 	class:ProseMirror={true}
-	class:editor_empty={editorIsEmpty}
+	class="editor_empty ui-editor"
 	data-placeholder={placeholder}
-	bind:this={editor}
-	onfocus={focusProp}
-	onblur={blurProp}
-	onkeydown={(e) => e.preventDefault()}
+	{...restProps}
 ></div>
 
 <style>
-	:global(body) {
-		--ui-color-placeholder: #aaaaaa;
+	.ProseMirror {
+		border: 1px solid #ccc;
+		border-radius: 4px;
+		padding: 0.75rem;
+		min-height: 150px;
+		font-family: ui-sans-serif, system-ui, sans-serif;
 	}
 
 	:global(.ProseMirror) {
@@ -192,6 +151,6 @@
 		position: absolute;
 		content: attr(data-placeholder);
 		pointer-events: none;
-		color: var(--ui-color-placeholder);
+		color: rgba(0, 0, 0, 0.5);
 	}
 </style>
