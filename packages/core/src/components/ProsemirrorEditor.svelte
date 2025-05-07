@@ -6,7 +6,7 @@
 	import type { HTMLAttributes, ClassValue } from 'svelte/elements';
 	import { corePlugins, richTextPlugins } from '../helpers/index.js';
 	import type { Query } from '../typings/index.js';
-
+	import { DOMParser } from 'prosemirror-model';
 	interface Props extends HTMLAttributes<HTMLDivElement> {
 		ref?: HTMLDivElement | null;
 		class?: ClassValue;
@@ -31,17 +31,22 @@
 
 	onMount(() => {
 		view = new EditorView(
-			{
-				mount: ref!
-			},
+			// ref!,
+			// {
+			// 	mount: ref!
+			// },
+			null,
 			{
 				state: EditorState.create({
 					schema,
 					plugins: [...corePlugins, ...richTextPlugins],
-					doc: query?.text ? schema.nodeFromJSON(query.text) : undefined
+					// doc: query?.text ? schema.nodeFromJSON({ content: query.text }) : undefined
+					// doc: schema.nodeFromJSON({ content: query?.text || '' })
+					doc: DOMParser.fromSchema(schema).parse(ref!)
 				})
 			}
 		);
+		console.log(view?.state.doc.toJSON());
 	});
 
 	onDestroy(() => {
