@@ -1,29 +1,32 @@
 {
 	"name": "@prosemirror-svelte/core",
 	"version": "0.0.1",
-	"main": "dist/index.cjs",
-	"module": "dist/index.js",
+	"private": true,
 	"type": "module",
-	"types": "dist/index.d.ts",
+	"svelte": "./src/index.ts",
+	"types": "./src/index.ts",
+	"files": [
+		"dist",
+		"!dist/**/*.test.*",
+		"!dist/**/*.spec.*"
+	],
+	"sideEffects": [
+		"**/*.css"
+	],
 	"exports": {
-		"./package.json": "./package.json",
 		".": {
-			"types": "./dist/index.d.ts",
-			"import": "./dist/index.js",
-			"require": "./dist/index.cjs"
+			"types": "./src/index.ts",
+			"svelte": "./src/index.ts"
 		}
 	},
-	"files": [
-		"dist"
-	],
 	"scripts": {
-		"build": "vite build",
-		"watch": "rimraf dist && vite build --watch",
+		"test": "npm run test:integration && npm run test:unit",
 		"check-types": "tsc --noEmit",
-		"test": "vitest run"
+		"lint": "eslint .",
+		"test:integration": "playwright test",
+		"test:unit": "vitest"
 	},
-	"peerDependencies": {},
 	"devDependencies": {
-		"jsdom": "^26.1.0"
+		"@sveltejs/adapter-static": "^3.0.8"
 	}
 }

@@ -5,10 +5,12 @@
 	import { schema } from 'prosemirror-schema-basic';
 	import type { HTMLAttributes, ClassValue } from 'svelte/elements';
 	import { corePlugins, richTextPlugins } from '../helpers/index.js';
+	import type { Query } from '../typings/index.js';
 
 	interface Props extends HTMLAttributes<HTMLDivElement> {
 		ref?: HTMLDivElement | null;
 		class?: ClassValue;
+		query?: Query;
 		placeholder?: string;
 		extensions?: any[];
 	}
@@ -16,12 +18,16 @@
 	let {
 		ref = $bindable(null),
 		class: className,
+		query,
 		placeholder = 'Default placeholder',
 		extensions = [],
 		...restProps
 	}: Props = $props();
 
+	const registeredBadges = $state([]);
+
 	let view: EditorView | null = null;
+	let textContent = $state(query?.text || '');
 
 	onMount(() => {
 		view = new EditorView(
@@ -31,7 +37,8 @@
 			{
 				state: EditorState.create({
 					schema,
-					plugins: [...corePlugins, ...richTextPlugins]
+					plugins: [...corePlugins, ...richTextPlugins],
+					doc: query?.text ? schema.nodeFromJSON(query.text) : undefined
 				})
 			}
 		);
@@ -66,11 +73,17 @@
 	export function focus() {
 		view?.focus();
 	}
+
+	$effect(() => {
+		console.log('query changed', query);
+		// TODO: render the badges
+	});
 </script>
 
 <!-- The actual DOM node ProseMirror will manage -->
 <div
 	bind:this={ref}
+	bind:textContent
 	contenteditable
 	class:ProseMirror={true}
 	class="editor_empty ui-editor"
