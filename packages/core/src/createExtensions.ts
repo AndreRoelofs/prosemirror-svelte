@@ -1,7 +1,17 @@
 import { default as ProsemirrorEditor } from './components/ProsemirrorEditor.svelte';
 import type { EurNode, ExtensionData, Extension } from './typings';
 import type { NodeSpec } from 'prosemirror-model';
-export function createExtensions(editor: ProsemirrorEditor, extensions: Extension[]) {
+import { createNodeSpec } from './extensions/createNodeSpec.js';
+import { Schema } from 'prosemirror-model';
+import { keymap } from 'prosemirror-keymap';
+import { Plugin } from 'prosemirror-state';
+
+export interface Initialized extends ExtensionData {
+	plugins: Plugin[];
+	schema: Schema;
+}
+
+export function createExtensions(editor: ProsemirrorEditor, extensions: Extension[]): Initialized {
 	const extData: ExtensionData = {
 		nodes: {},
 		svelteNodes: {}
@@ -18,4 +28,29 @@ export function createExtensions(editor: ProsemirrorEditor, extensions: Extensio
 			extData.nodes[id] = createNodeSpec(value);
 		}
 	});
+
+	const schema = new Schema({
+		nodes: {
+			doc: {
+				content: 'block+'
+			},
+			text: {
+				group: 'inline'
+			}
+		},
+		...extData.nodes
+	});
+
+	const plugins = [
+		...extensions.reduce(
+			(acc, ext) => [...acc, ...((ext.plugins && ext.plugins(editor, schema)) || [])],
+			[] as Plugin[]
+		)
+	];
+
+	return {
+		...extData,
+		plugins,
+		schema
+	};
 }

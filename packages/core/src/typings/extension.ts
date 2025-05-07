@@ -1,6 +1,7 @@
 import { MarkSpec, NodeSpec, Node as PMNode, Schema } from 'prosemirror-model';
 import type { SvelteComponent } from 'svelte';
-
+import { Plugin } from 'prosemirror-state';
+import { default as ProsemirrorEditor } from '../components/ProsemirrorEditor.svelte';
 export interface ExtensionData {
 	nodes: { [name: string]: NodeSpec };
 	svelteNodes: { [name: string]: EurNode<any> };
@@ -30,4 +31,5 @@ export interface Extension {
 	nodes?: {
 		[name: string]: EurNode<any>;
 	};
+	plugins?: (editor: ProsemirrorEditor, schema: Schema) => Plugin[];
 }
