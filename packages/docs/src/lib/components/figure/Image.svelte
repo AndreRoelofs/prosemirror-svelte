@@ -26,15 +26,11 @@
 </script>
 
 <script lang="ts">
-	import type { NodeProps } from '@prosemirror-svelte/old-core';
+	import type { NodeProps } from '@prosemirror-svelte/core';
 
-	interface $$Props extends NodeProps<ImageAttrs> {}
+	interface Props extends NodeProps<ImageAttrs> {}
 
-	const { node, attrs, contentDOM } = $props<{
-		node: PMNode | undefined;
-		attrs: ImageAttrs;
-		contentDOM: (node: HTMLElement) => void;
-	}>();
+	const { node, attrs, contentDOM }: Props = $props();
 </script>
 
 <img src={attrs.src} alt={attrs.alt} title={attrs.title} />

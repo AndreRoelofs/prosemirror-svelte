@@ -18,15 +18,11 @@
 </script>
 
 <script lang="ts">
-	import type { NodeProps } from '@prosemirror-svelte/old-core';
+	import type { NodeProps } from '@prosemirror-svelte/core';
 
-	interface $$Props extends NodeProps<FigcaptionAttrs> {}
+	interface Props extends NodeProps<FigcaptionAttrs> {}
 
-	const { node, attrs, contentDOM } = $props<{
-		node: PMNode | undefined;
-		attrs: FigcaptionAttrs;
-		contentDOM: (node: HTMLElement) => void;
-	}>();
+	const { node, attrs, contentDOM }: Props = $props();
 </script>
 
 <!-- svelte-ignore a11y-structure -->
