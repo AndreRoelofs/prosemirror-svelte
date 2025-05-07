@@ -1,11 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import {
-		ProsemirrorEditor,
-		createMultiLineEditor,
-		toPlainText,
-		selectAll
-	} from '@prosemirror-svelte/bindings';
+	import { ProsemirrorEditor } from '@prosemirror-svelte/core';
 
 	let editorRef: any | null = $state(null);
 

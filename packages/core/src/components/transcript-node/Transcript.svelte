@@ -22,7 +22,7 @@
 </script>
 
 <script lang="ts">
-	import { NodeProps } from '../../typings';
+	import type { NodeProps } from '../../typings';
 
 	export interface Props extends NodeProps<TranscriptAttrs> {}
 

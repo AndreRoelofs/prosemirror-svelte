@@ -11,7 +11,7 @@
 		eurNodes: [
 			{
 				id: 'a5a1f770-8e6a-4d87-88d2-ba06dff789c8',
-				offset: 8,
+				position: 8,
 				attrs: {
 					text: 'Some Transcript'
 				}
