@@ -14,11 +14,7 @@
 	}
 </script>
 
-<ProsemirrorEditor
-	bind:this={editorRef}
-	placeholder="Text goes here"
-	textContent="Go ahead. Edit me!"
-/>
+<ProsemirrorEditor bind:this={editorRef} placeholder="Text goes here" />
 
 <div class="controls">
 	<button onclick={clear}>Clear</button>
