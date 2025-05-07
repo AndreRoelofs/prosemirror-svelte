@@ -6,7 +6,7 @@ This document outlines the proposed architecture for the new `packages/core`, co
 
 ```mermaid
 graph TD
-    App[Application using the Editor] --> SvelteEditorComponent[ProsemirrorEditor.svelte (Svelte 5)]
+    App[Application using the Editor] --> SvelteEditorComponent[ProsemirrorEditor.svelte]
 
     SvelteEditorComponent -->|manages| ProseMirrorEditorView[ProseMirror EditorView]
     SvelteEditorComponent -->|manages| ProseMirrorEditorState[ProseMirror EditorState]

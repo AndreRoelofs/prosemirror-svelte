@@ -10,6 +10,9 @@
 
 	let editorRef: any | null = $state(null);
 
+	const exampleInput =
+		'Where in <transcript text="Some Transcript"/> is the following topic discussed <google-drive title="Some file"/>';
+
 	function clear() {
 		console.log(editorRef);
 		editorRef?.clear();
@@ -22,6 +25,7 @@
 
 <ProsemirrorEditor
 	bind:this={editorRef}
+	textContent={exampleInput}
 	placeholder="Text goes here"
 	extensions={[figureExtension]}
 />

@@ -4,12 +4,11 @@
 	import { EditorView } from 'prosemirror-view';
 	import { schema } from 'prosemirror-schema-basic';
 	import type { HTMLAttributes, ClassValue } from 'svelte/elements';
-	import { corePlugins, richTextPlugins } from '../helpers';
+	import { corePlugins, richTextPlugins } from '../helpers/index.js';
 
 	interface Props extends HTMLAttributes<HTMLDivElement> {
 		ref?: HTMLDivElement | null;
 		class?: ClassValue;
-		textContent?: string;
 		placeholder?: string;
 		extensions?: any[];
 	}
@@ -17,7 +16,6 @@
 	let {
 		ref = $bindable(null),
 		class: className,
-		textContent,
 		placeholder = 'Default placeholder',
 		extensions = [],
 		...restProps
@@ -33,8 +31,7 @@
 			{
 				state: EditorState.create({
 					schema,
-					plugins: [...corePlugins, ...richTextPlugins],
-					doc: textContent ? schema.nodeFromJSON(textContent) : undefined
+					plugins: [...corePlugins, ...richTextPlugins]
 				})
 			}
 		);
@@ -74,22 +71,12 @@
 <!-- The actual DOM node ProseMirror will manage -->
 <div
 	bind:this={ref}
-	bind:textContent
-	contenteditable
-	class:ProseMirror={true}
-	data-placeholder={placeholder}
-	{...restProps}
-></div>
-
-<!-- <div
-	bind:this={ref}
-	bind:textContent
 	contenteditable
 	class:ProseMirror={true}
 	class="editor_empty ui-editor"
 	data-placeholder={placeholder}
 	{...restProps}
-></div> -->
+></div>
 
 <style>
 	.ProseMirror {
