@@ -1,5 +1,5 @@
 // import { vi } from 'vitest'
-import { htmlToDOMOutputSpec } from './htmlToDOMOutputSpec';
+import { htmlToDOMOutputSpec } from './htmlToDOMOutputSpec.js';
 
 describe('htmlToDOMOutputSpec', () => {
 	it('should generate simple paragraph output spec', () => {
@@ -27,10 +27,10 @@ describe('htmlToDOMOutputSpec', () => {
 				'img',
 				{
 					src: 'https://upload.wikimedia.org/wikipedia/en/7/70/Bob_at_Easel.jpg',
-					alt: ''
-				}
+					alt: '',
+				},
 			],
-			['figcaption', 0]
+			['figcaption', 0],
 		]);
 	});
 
@@ -50,19 +50,18 @@ describe('htmlToDOMOutputSpec', () => {
 			[
 				'figcaption',
 				{
-					class: 'svelte-lu7br9'
+					class: 'svelte-lu7br9',
 				},
-				0
+				0,
 			],
 			[
 				'img',
 				{
 					src: 'https://upload.wikimedia.org/wikipedia/en/7/70/Bob_at_Easel.jpg',
 					alt: 'Bob Ross in front of painting',
-					title: ''
-				}
-			]
+					title: '',
+				},
+			],
 		]);
 	});
-	const figure = '';
 });

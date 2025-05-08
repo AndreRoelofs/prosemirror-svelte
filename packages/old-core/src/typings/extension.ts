@@ -1,11 +1,10 @@
-import { MarkSpec, NodeSpec, Node as PMNode, Schema } from 'prosemirror-model';
-import { EditorView, MarkViewConstructor, NodeViewConstructor } from 'prosemirror-view';
+import { NodeSpec, Node as PMNode, Schema } from 'prosemirror-model';
 import { Plugin } from 'prosemirror-state';
-import type { SvelteComponent } from 'svelte';
-
-import type { Editor } from '../Editor';
-import type { EditorProps } from './editor';
-import type { Cmd } from './pm';
+import { MarkViewConstructor, NodeViewConstructor } from 'prosemirror-view';
+import type { Editor } from '../Editor.js';
+import type { Cmd } from './pm.js';
+import type { MarkSpec } from 'prosemirror-model';
+import type { Component } from 'svelte';
 
 export interface ExtensionData {
 	commands: { [name: string]: (...args: any[]) => Cmd };
@@ -45,10 +44,10 @@ export interface SveltePMNode<T extends NodeAttrs | undefined> {
 	fromJSON?: (node: Record<string, any>) => any;
 	attrExtractor?: (
 		dom: HTMLElement | string,
-		attr: string
+		attr: string,
 	) => { [attr: string]: any } | undefined;
 	nodeView?: (editor: Editor) => NodeViewConstructor;
-	component?: typeof SvelteComponent<NodeProps<T>>;
+	component?: Component<NodeProps<T>>;
 }
 
 export interface Extension {
@@ -71,7 +70,11 @@ export interface Extension {
 export type ExtObject = { [key in keyof Extensions]: Extensions[key] };
 // This interface is augmented by all the other extensions in order to generate type-safe access to their
 // data from ExtensionProvider
+// eslint-disable-next-line
 export interface Extensions {}
+// eslint-disable-next-line
 export interface EditorCommands {}
+// eslint-disable-next-line
 export interface Nodes {}
+// eslint-disable-next-line
 export interface Marks {}

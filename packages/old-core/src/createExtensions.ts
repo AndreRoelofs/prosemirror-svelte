@@ -1,13 +1,12 @@
+import { createNodeSpec } from './extensions/createNodeSpec.js';
+import { keymap } from 'prosemirror-keymap';
 import { Schema } from 'prosemirror-model';
 import { Command, Plugin } from 'prosemirror-state';
-
-import { SvelteNodeView } from './SvelteNodeView';
-import { createNodeSpec } from './extensions/createNodeSpec';
-
-import type { Cmd, Editor, EditorProps, ExtensionData, Initialized } from './typings';
-import { keymap } from 'prosemirror-keymap';
-
-export function createExtensions(editor: Editor, { extensions = [] }: EditorProps): Initialized {
+import type { Editor, EditorProps, ExtensionData, Initialized } from './typings/index.js';
+export async function createExtensions(
+	editor: Editor,
+	{ extensions = [] }: EditorProps,
+): Promise<Initialized> {
 	const extData: ExtensionData = {
 		commands: {},
 		marks: {},
@@ -15,7 +14,7 @@ export function createExtensions(editor: Editor, { extensions = [] }: EditorProp
 		nodes: {},
 		nodeViews: {},
 		sortedKeymaps: {},
-		svelteNodes: {}
+		svelteNodes: {},
 	};
 	for (const key in extensions) {
 		const ext = extensions[key];
@@ -25,7 +24,7 @@ export function createExtensions(editor: Editor, { extensions = [] }: EditorProp
 			cmd.sort((a, b) => b.priority - a.priority);
 			if (name in extData.sortedKeymaps) {
 				extData.sortedKeymaps[name] = [...extData.sortedKeymaps[key], ...cmd].sort(
-					(a, b) => b.priority - a.priority
+					(a, b) => b.priority - a.priority,
 				);
 			} else {
 				extData.sortedKeymaps[name] = cmd;
@@ -34,12 +33,12 @@ export function createExtensions(editor: Editor, { extensions = [] }: EditorProp
 		for (const name in ext.nodes) {
 			if (name in extData.svelteNodes) {
 				throw Error(
-					`@my-org/core: duplicate node "${name}" provided from extension ${key}`
+					`@my-org/core: duplicate node "${name}" provided from extension ${key}`,
 				);
 			}
 			const value = ext.nodes[name];
 			extData.svelteNodes[name] = value;
-			extData.nodes[name] = createNodeSpec(value);
+			extData.nodes[name] = await createNodeSpec(value);
 			if (value.nodeView) {
 				extData.nodeViews[name] = value.nodeView(editor);
 			}
@@ -47,7 +46,7 @@ export function createExtensions(editor: Editor, { extensions = [] }: EditorProp
 		for (const name in ext.marks) {
 			if (name in extData.marks) {
 				throw Error(
-					`@my-org/core: duplicate mark "${name}" provided from extension ${key}`
+					`@my-org/core: duplicate mark "${name}" provided from extension ${key}`,
 				);
 			}
 			const { schema, markView } = ext.marks[name];
@@ -62,35 +61,34 @@ export function createExtensions(editor: Editor, { extensions = [] }: EditorProp
 			extData.commands = { ...extData.commands, ...ext.commands };
 		}
 	}
-
 	const schema = new Schema({
 		nodes: {
 			doc: {
-				content: 'block+'
+				content: 'block+',
 			},
 			text: {
-				group: 'inline'
+				group: 'inline',
 			},
-			...extData.nodes
+			...extData.nodes,
 		},
-		marks: extData.marks
+		marks: extData.marks,
 	});
 
 	const keymaps = Object.keys(extData.sortedKeymaps).reduce(
 		(acc, key) => {
-			// @ts-ignore
+			// @ts-expect-error extData.sortedKeymaps[key][0].cmd is not a Command
 			acc[key] = extData.sortedKeymaps[key][0].cmd;
 			return acc;
 		},
-		{} as { [key: string]: Command }
+		{} as { [key: string]: Command },
 	);
 
 	const plugins = [
 		keymap(keymaps),
 		...extensions.reduce(
 			(acc, ext) => [...acc, ...((ext.plugins && ext.plugins(editor, schema)) || [])],
-			[] as Plugin[]
-		)
+			[] as Plugin[],
+		),
 	];
 	return { ...extData, plugins, schema };
 }

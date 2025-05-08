@@ -1,27 +1,12 @@
 {
-	"$schema": "https://json.schemastore.org/tsconfig",
+	"extends": "../../tsconfig.json",
 	"compilerOptions": {
-		"target": "es2018",
+		"target": "ESNext",
 		"types": ["vitest/globals"],
 		"lib": ["esnext", "dom", "dom.iterable"],
 		"declaration": true,
 		"declarationDir": "./dist",
-
-		"moduleResolution": "node",
-		"module": "esnext",
-		"isolatedModules": true,
-		"resolveJsonModule": true,
-		"sourceMap": true,
-		"esModuleInterop": true,
-		"skipLibCheck": true,
-		"forceConsistentCasingInFileNames": true,
-		"allowSyntheticDefaultImports": true,
-		"allowJs": true,
-		"strict": true,
-		"noImplicitAny": true,
-		"strictFunctionTypes": true,
-		"strictNullChecks": true,
-		"removeComments": false
+		"declarationMap": true
 	},
 	"include": ["src"],
 	"exclude": ["node_modules"]

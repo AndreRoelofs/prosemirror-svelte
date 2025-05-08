@@ -1,9 +1,10 @@
+/* eslint-disable */
+
+import { wrapIn } from 'prosemirror-commands';
 import { Fragment, Mark, NodeRange, NodeType, Node as PMNode, Slice } from 'prosemirror-model';
 import { TextSelection } from 'prosemirror-state';
 import { findWrapping, liftTarget } from 'prosemirror-transform';
-
-import type { Cmd } from './typings';
-import { wrapIn } from 'prosemirror-commands';
+import type { Cmd } from './typings/index.js';
 
 export const commands = {
 	/**
@@ -123,14 +124,14 @@ export const commands = {
 		(state, dispatch) => {
 			const {
 				selection: { from, to },
-				tr
+				tr,
 			} = state;
 			dispatch &&
 				dispatch(
 					tr
 						.replace(start ?? from, end ?? to, slice)
 						.setMeta('paste', true)
-						.setMeta('uiEvent', 'paste')
+						.setMeta('uiEvent', 'paste'),
 				);
 			return true;
 		},
@@ -167,12 +168,12 @@ export const commands = {
 			const range = new NodeRange(
 					state.selection.$from,
 					state.selection.$to,
-					state.selection.$from.depth
+					state.selection.$from.depth,
 				),
 				wrapping = findWrapping(range, nodeType, attrs);
 			if (wrapping) {
 				dispatch && dispatch(state.tr.wrap(range, wrapping));
 			}
 			return !!wrapping;
-		}
+		},
 };

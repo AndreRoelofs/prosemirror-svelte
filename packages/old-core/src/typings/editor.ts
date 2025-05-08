@@ -1,7 +1,5 @@
-import type { Extension } from './extension';
-import type { PMDoc } from './pm';
-
-export type { Editor } from '../Editor';
+import type { Extension } from './extension.js';
+import type { PMDoc } from './pm.js';
 
 export interface EditorProps {
 	extensions?: Extension[];

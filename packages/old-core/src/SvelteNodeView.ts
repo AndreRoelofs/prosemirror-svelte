@@ -1,14 +1,14 @@
 import { Attrs, DOMSerializer, Node as PMNode } from 'prosemirror-model';
+import { mount, type Component } from 'svelte';
+import type { Editor } from './typings/index.js';
 import type {
 	Decoration,
 	DecorationSource,
 	EditorView,
 	NodeView,
-	NodeViewConstructor
+	NodeViewConstructor,
+	ViewMutationRecord,
 } from 'prosemirror-view';
-
-import type { SvelteComponent } from 'svelte';
-import type { Editor } from './typings';
 
 export interface SvelteNodeViewProps<A extends Attrs> {
 	node: PMNode;
@@ -22,6 +22,10 @@ export interface SvelteNodeViewProps<A extends Attrs> {
 	editor: Editor;
 }
 
+export interface MountedComponent extends Component {
+	destroy(): void;
+}
+
 export class SvelteNodeView<A extends Attrs> implements NodeView {
 	protected _dom?: HTMLElement;
 	contentDOM?: HTMLElement;
@@ -32,8 +36,8 @@ export class SvelteNodeView<A extends Attrs> implements NodeView {
 
 	selected: boolean | undefined;
 	editor: Editor;
-	component?: typeof SvelteComponent<SvelteNodeViewProps<A>>;
-	mounted?: SvelteComponent;
+	component?: Component<SvelteNodeViewProps<A>>;
+	mounted?: MountedComponent;
 
 	constructor(
 		node: PMNode,
@@ -42,7 +46,7 @@ export class SvelteNodeView<A extends Attrs> implements NodeView {
 		decorations: readonly Decoration[],
 		innerDecorations: DecorationSource,
 		editor: Editor,
-		component?: typeof SvelteComponent<SvelteNodeViewProps<A>>
+		component?: Component<SvelteNodeViewProps<A>>,
 	) {
 		this.node = node;
 		this.view = view;
@@ -55,7 +59,7 @@ export class SvelteNodeView<A extends Attrs> implements NodeView {
 	get dom() {
 		if (!this._dom) {
 			throw Error(
-				'@my-org/core: Accessing uninitialized dom inside SvelteNodeView! Check your "init" method'
+				'@my-org/core: Accessing uninitialized dom inside SvelteNodeView! Check your "init" method',
 			);
 		}
 		return this._dom;
@@ -75,31 +79,34 @@ export class SvelteNodeView<A extends Attrs> implements NodeView {
 				if (this.contentDOM) {
 					node.appendChild(this.contentDOM);
 				}
-			}
+			},
 		};
 	}
 
 	init = (): this => {
 		const toDOM = this.node.type.spec.toDOM;
-		if (!toDOM) throw Error(`@my-org/core: node "${this.node.type}" was not given a toDOM method!`);
-		const { dom, contentDOM } = DOMSerializer.renderSpec(document, toDOM(this.node));
+		if (!toDOM)
+			throw Error(`@my-org/core: node "${this.node.type}" was not given a toDOM method!`);
+		const { contentDOM } = DOMSerializer.renderSpec(document, toDOM(this.node));
 		// this._dom = dom as HTMLElement
 		this.contentDOM = contentDOM;
 		this._dom = document.createElement(this.node.type.spec.inline ? 'span' : 'div');
 		if (this.component) {
-			this.mounted = new this.component({ target: this.dom, props: this.props });
+			// Mount the component synchronously but don't wait for it to complete
+			// This allows init() to return immediately while the component mounts in the background
+			this.mounted = mount(this.component!, {
+				target: this.dom,
+				props: this.props,
+			}) as MountedComponent;
 		} else {
-			contentDOM && this._dom.appendChild(contentDOM);
+			this._dom.appendChild(contentDOM!);
 		}
 		return this;
 	};
 
-	render() {
-		this.mounted?.$$set && this.mounted?.$$set(this.props);
-	}
+	render() {}
 
 	shouldUpdate = (node: PMNode) => {
-		// console.log('should update')
 		if (node.type !== this.node.type) {
 			return false;
 		} else if (node.sameMarkup(this.node)) {
@@ -111,7 +118,7 @@ export class SvelteNodeView<A extends Attrs> implements NodeView {
 	update = (
 		node: PMNode,
 		decorations: readonly Decoration[],
-		innerDecorations: DecorationSource
+		innerDecorations: DecorationSource,
 	): boolean => {
 		// if (!newNode.sameMarkup(this.node)) return false
 		if (node.type.name !== this.node.type.name) {
@@ -125,33 +132,31 @@ export class SvelteNodeView<A extends Attrs> implements NodeView {
 	};
 
 	selectNode = () => {
-		// console.log('selectNode ')
 		this.selected = true;
 		this.render();
 	};
 
 	deselectNode = () => {
-		// console.log('deselectNode ')
 		this.selected = false;
 		this.render();
 	};
 
 	destroy = () => {
-		this.mounted?.$destroy();
+		this.mounted?.destroy();
 	};
 
-	ignoreMutation = (_mutation: { type: string; target: Node }) => true;
+	ignoreMutation = (_mutation: ViewMutationRecord) => true;
 
 	static fromComponent<A extends Attrs>(
 		editor: Editor,
-		component?: typeof SvelteComponent<SvelteNodeViewProps<A>>
+		component?: Component<SvelteNodeViewProps<A>>,
 	): NodeViewConstructor {
 		return (
 			node: PMNode,
 			view: EditorView,
 			getPos: () => number | undefined,
 			decorations: readonly Decoration[],
-			innerDecorations: DecorationSource
+			innerDecorations: DecorationSource,
 		) => new this(node, view, getPos, decorations, innerDecorations, editor, component).init();
 	}
 }

@@ -36,8 +36,8 @@ export class Observable<Events extends EventMap> {
 	}
 
 	emit<K extends keyof Events>(key: K, ...args: Parameters<Events[K]>) {
-		return Array.from((this.observers.get(key) || new Set()).values()).forEach((cb) =>
-			cb(...args)
+		return Array.from((this.observers.get(key) || new Set()).values()).forEach(cb =>
+			cb(...args),
 		);
 	}
 

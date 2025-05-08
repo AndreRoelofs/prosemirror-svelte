@@ -1,5 +1,5 @@
 // import { vi } from 'vitest'
-import { getAttrsWithOutputSpec } from './getAttrsWithOutputSpec';
+import { getAttrsWithOutputSpec } from './getAttrsWithOutputSpec.js';
 
 describe('getAttrsWithOutputSpec', () => {
 	it('should get attributes from simple paragraph (1)', () => {
@@ -9,7 +9,7 @@ describe('getAttrsWithOutputSpec', () => {
 		const spec = ['p', { 'data-indent': '' }, 0];
 		const attrs = getAttrsWithOutputSpec(spec, el, { selector: [] });
 		expect(attrs).toEqual({
-			'data-indent': 3
+			'data-indent': 3,
 		});
 	});
 
@@ -21,7 +21,7 @@ describe('getAttrsWithOutputSpec', () => {
 		const attrs = getAttrsWithOutputSpec(spec, el, { selector: [] });
 		expect(attrs).toEqual({
 			'data-indent': '',
-			class: 'hidden'
+			class: 'hidden',
 		});
 	});
 
@@ -41,16 +41,16 @@ describe('getAttrsWithOutputSpec', () => {
 				'img',
 				{
 					src: 'https://upload.wikimedia.org/wikipedia/en/7/70/Bob_at_Easel.jpg',
-					alt: ''
-				}
+					alt: '',
+				},
 			],
-			['figcaption', 0]
+			['figcaption', 0],
 		];
 		const attrs = getAttrsWithOutputSpec(spec, el, { selector: [] });
 		expect(attrs).toEqual({
 			id: '',
 			src: 'https://upload.wikimedia.org/wikipedia/en/7/70/Bob_at_Easel.jpg',
-			alt: ''
+			alt: '',
 		});
 	});
 
@@ -70,15 +70,15 @@ describe('getAttrsWithOutputSpec', () => {
 				'img',
 				{
 					src: 'https://upload.wikimedia.org/wikipedia/en/7/70/Bob_at_Easel.jpg',
-					alt: ''
-				}
+					alt: '',
+				},
 			],
-			['figcaption', 0]
+			['figcaption', 0],
 		];
 		const attrs = getAttrsWithOutputSpec(spec, el, { selector: [] });
 		expect(attrs).toEqual({
 			src: 'https://upload.wikimedia.org/wikipedia/en/7/70/Bob_at_Easel.jpg',
-			alt: 'Bob Ross in front of painting'
+			alt: 'Bob Ross in front of painting',
 		});
 	});
 });
