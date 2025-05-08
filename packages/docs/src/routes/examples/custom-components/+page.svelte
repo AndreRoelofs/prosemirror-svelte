@@ -1,22 +1,13 @@
 <script lang="ts">
 	import { figureExtension } from '$lib/components/figure/index.js';
-	import { ProsemirrorEditor, transcriptExtension } from '@prosemirror-svelte/core';
 
-	import type { Query, EurNode } from '@prosemirror-svelte/core';
+	import { Editor as ProsemirrorEditor } from '@prosemirror-svelte/core';
+	import type { Query } from '@prosemirror-svelte/core';
 
 	let editorRef: any | null = $state(null);
 
 	const exampleInput: Query = {
-		text: 'Where in ',
-		eurNodes: [
-			{
-				id: 'a5a1f770-8e6a-4d87-88d2-ba06dff789c8',
-				position: 8,
-				attrs: {
-					text: 'Some Transcript'
-				}
-			}
-		]
+		text: 'Where in '
 	};
 
 	// const exampleInput =
@@ -36,12 +27,7 @@
 	}
 </script>
 
-<ProsemirrorEditor
-	bind:this={editorRef}
-	query={exampleInput}
-	placeholder=""
-	extensions={[figureExtension]}
-/>
+<ProsemirrorEditor bind:this={editorRef} query={exampleInput} />
 
 <div class="controls">
 	<button onclick={clear}>Clear</button>
@@ -52,6 +38,3 @@
 </div>
 
 <!-- <div class="mirror">Current plain text content of the editor: "{textContent}"</div> -->
-
-<style>
-</style>

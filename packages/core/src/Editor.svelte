@@ -1,0 +1,58 @@
+<script lang="ts">
+	import { EditorState, Transaction } from 'prosemirror-state';
+	import { Schema, DOMParser, Node } from 'prosemirror-model';
+	import { EditorView } from 'prosemirror-view';
+	import { schema } from 'prosemirror-schema-basic';
+	import { addListNodes } from 'prosemirror-schema-list';
+	import { exampleSetup } from 'prosemirror-example-setup';
+	import { onDestroy, onMount } from 'svelte';
+	import type { Query } from './typings/index.js';
+
+	import './Editor.css';
+
+	export interface Props {
+		query: Query;
+		placeholder?: string;
+	}
+
+	let editorRef: HTMLDivElement | null = $state(null);
+	let view: EditorView | null = null;
+
+	let { query, placeholder }: Props = $props();
+
+	onMount(() => {
+		const mySchema = new Schema({
+			nodes: addListNodes(schema.spec.nodes, 'paragraph block*', 'block'),
+			marks: schema.spec.marks
+		});
+
+		const doc = document.createElement('p');
+		doc.textContent = query.text;
+
+		view = new EditorView(editorRef, {
+			state: EditorState.create({
+				schema: mySchema,
+				plugins: exampleSetup({ schema: mySchema }),
+				doc: DOMParser.fromSchema(mySchema).parse(doc)
+			})
+		});
+	});
+
+	onDestroy(() => {
+		view?.destroy();
+	});
+</script>
+
+<div contenteditable class:ProseMirror={true} bind:this={editorRef}></div>
+
+<style lang="postcss">
+	.ProseMirror {
+		border-top: 0;
+		min-height: 300px;
+		overflow-wrap: break-word;
+		outline: none;
+		white-space: pre-wrap;
+		width: 100%;
+		@apply p-4;
+	}
+</style>

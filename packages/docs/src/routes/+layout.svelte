@@ -1,6 +1,5 @@
 <script lang="ts">
 	import '../app.pcss';
-
 	let { children } = $props();
 
 	function navigate(url: string) {
