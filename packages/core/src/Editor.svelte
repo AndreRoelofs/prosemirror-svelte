@@ -9,6 +9,7 @@
 	import type { Query } from './typings/index.js';
 
 	import './Editor.css';
+	import { createExtensions } from './createExtensions.js';
 
 	export interface Props {
 		query: Query;
@@ -21,22 +22,30 @@
 	let { query, placeholder }: Props = $props();
 
 	onMount(() => {
-		const mySchema = new Schema({
-			nodes: addListNodes(schema.spec.nodes, 'paragraph block*', 'block'),
-			marks: schema.spec.marks
-		});
+		init();
+	});
+
+	async function init() {
+		// const mySchema = new Schema({
+		// 	nodes: addListNodes(schema.spec.nodes, 'paragraph block*', 'block'),
+		// 	marks: schema.spec.marks
+		// });
 
 		const doc = document.createElement('p');
 		doc.textContent = query.text;
 
+		// @ts-ignore
+		const extensions = await createExtensions(this as any, query.extensions);
+		extensions.plugins = extensions.plugins || [];
+
 		view = new EditorView(editorRef, {
 			state: EditorState.create({
-				schema: mySchema,
-				plugins: exampleSetup({ schema: mySchema }),
-				doc: DOMParser.fromSchema(mySchema).parse(doc)
+				schema: extensions.schema,
+				plugins: [...exampleSetup({ schema: extensions.schema }), ...extensions.plugins],
+				doc: DOMParser.fromSchema(extensions.schema).parse(doc)
 			})
 		});
-	});
+	}
 
 	onDestroy(() => {
 		view?.destroy();
