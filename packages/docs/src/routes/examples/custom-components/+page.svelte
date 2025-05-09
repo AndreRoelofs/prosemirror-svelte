@@ -7,7 +7,8 @@
 	let editorRef: any | null = $state(null);
 
 	const exampleInput: Query = {
-		text: 'Where in '
+		text: 'Where in ',
+		extensions: []
 	};
 
 	// const exampleInput =

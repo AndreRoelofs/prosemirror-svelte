@@ -7,9 +7,9 @@
 	import { exampleSetup } from 'prosemirror-example-setup';
 	import { onDestroy, onMount } from 'svelte';
 	import type { Query } from './typings/index.js';
-
-	import './Editor.css';
 	import { createExtensions } from './createExtensions.js';
+	import { transcriptExtension } from './components/transcript/extension.js';
+	import './Editor.css';
 
 	export interface Props {
 		query: Query;
@@ -34,9 +34,10 @@
 		const doc = document.createElement('p');
 		doc.textContent = query.text;
 
+		query.extensions.push(transcriptExtension);
+
 		// @ts-ignore
 		const extensions = await createExtensions(this as any, query.extensions);
-		extensions.plugins = extensions.plugins || [];
 
 		view = new EditorView(editorRef, {
 			state: EditorState.create({

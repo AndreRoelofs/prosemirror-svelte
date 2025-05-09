@@ -1,7 +1,7 @@
 import { default as Transcript } from './Transcript.svelte';
 import { SveltePMExtension } from '../../typings/extension.js';
 
-export function createTranscriptExtension() {
+export function transcriptExtension() {
 	return {
 		name: 'transcript' as const,
 		svelteNodes: {
