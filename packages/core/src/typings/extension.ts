@@ -9,7 +9,7 @@ export interface ExtensionsData {
 }
 
 export interface SveltePMExtension {
-	id: string;
+	name: string;
 	svelteNodes?: {
 		[name: string]: SveltePMNode<any>;
 	};
