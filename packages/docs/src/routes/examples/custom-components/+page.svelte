@@ -1,10 +1,9 @@
 <script lang="ts">
 	import { figureExtension } from '$lib/components/figure/index.js';
-
 	import { Editor as ProsemirrorEditor } from '@prosemirror-svelte/core';
 	import type { Query } from '@prosemirror-svelte/core';
 
-	let editorRef: any | null = $state(null);
+	let editorRef: ProsemirrorEditor | null = $state(null);
 
 	const exampleInput: Query = {
 		text: 'Where in ',
@@ -16,15 +15,16 @@
 
 	function clear() {
 		console.log(editorRef);
-		editorRef?.clear();
+		// editorRef?.clear();
 	}
 
 	function focus() {
-		editorRef?.focus();
+		// editorRef?.focus();
 	}
 
 	function addTranscriptNode() {
 		// TODO: implement
+		editorRef?.addTranscriptNode();
 	}
 </script>
 

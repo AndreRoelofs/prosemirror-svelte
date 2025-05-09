@@ -2,6 +2,11 @@ import { NodeSpec, Node as PMNode, Schema } from 'prosemirror-model';
 import type { Component } from 'svelte';
 import { Plugin } from 'prosemirror-state';
 
+export interface NodeProps<T> {
+	attrs: T;
+	ref: HTMLElement;
+}
+
 export interface ExtensionsData {
 	schema: Schema;
 	plugins: Plugin[];
@@ -19,7 +24,7 @@ export interface SveltePMNode<T> {
 	attrs?: T;
 	selectors?: string[];
 	schema: NodeSpec;
-	component?: Component;
+	component?: Component<NodeProps<T>>;
 }
 
 export interface PMExtension {

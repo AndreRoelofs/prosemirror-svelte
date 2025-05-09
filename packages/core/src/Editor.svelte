@@ -34,7 +34,7 @@
 		const doc = document.createElement('p');
 		doc.textContent = query.text;
 
-		query.extensions.push(transcriptExtension);
+		query.extensions.push(transcriptExtension());
 
 		// @ts-ignore
 		const extensions = await createExtensions(this as any, query.extensions);
@@ -47,6 +47,30 @@
 			})
 		});
 	}
+
+	export function testExport() {
+		console.log('testExport');
+	}
+
+	export function addTranscriptNode() {
+		if (!view) return;
+		const state = view.state;
+		const tr = state.tr;
+		const { schema } = state;
+		const nodes = schema.nodes;
+		tr.insert(
+			1,
+			nodes.transcript.create({
+				attrs: {
+					id: 'transcript-1',
+					text: 'transcript-1'
+				}
+			})
+		);
+		view.dispatch(tr);
+	}
+
+	export function cmd() {}
 
 	onDestroy(() => {
 		view?.destroy();

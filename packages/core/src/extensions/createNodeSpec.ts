@@ -54,10 +54,8 @@ export async function createSpec(node: SveltePMNode<any>): Promise<readonly [str
 	const comp = (await mount(component, {
 		target: div,
 		props: {
-			node: undefined,
-			attrs,
-			contentDOM: () => undefined
-		}
+			attrs
+		} as any
 	})) as any;
 	const spec = htmlToDOMOutputSpec(comp.ref);
 	return spec as [string, ...any[]];
