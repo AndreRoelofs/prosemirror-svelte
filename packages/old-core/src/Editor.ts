@@ -12,7 +12,7 @@ import type {
 	ExtObject,
 	EditorStateJSON,
 	Nodes,
-	EditorCommands,
+	EditorCommands
 } from './typings/index.js';
 
 interface MutableData {
@@ -44,7 +44,7 @@ export class Editor extends Observable<EditorEvents> {
 	get editorView(): EditorView {
 		if (this._editorView === undefined) {
 			throw Error(
-				'@my-org/core: Accessed undefined EditorView, did you initialize your Editor properly?',
+				'@my-org/core: Accessed undefined EditorView, did you initialize your Editor properly?'
 			);
 		}
 		return this._editorView;
@@ -62,10 +62,8 @@ export class Editor extends Observable<EditorEvents> {
 			const cmdKey = name as keyof typeof cmds;
 			if (typeof cmds[cmdKey] === 'object') {
 				const subCmds: any = {};
-				// @ts-expect-error cmds[cmdKey] is not an object
 				for (const subName in cmds[cmdKey]) {
 					subCmds[subName] = (...params: any[]) =>
-						// @ts-expect-error cmds[cmdKey] is not an object
 						this.cmd(cmds[cmdKey][subName](...params) as Cmd);
 				}
 				val[cmdKey] = subCmds;
@@ -101,7 +99,7 @@ export class Editor extends Observable<EditorEvents> {
 		name: K,
 		attrs?: Nodes[K],
 		content?: Fragment | PMNode[] | PMNode[],
-		marks?: Mark[],
+		marks?: Mark[]
 	) {
 		const nodes = this.editorView.state.schema.nodes;
 		if (!(name in nodes)) {
@@ -134,9 +132,9 @@ export class Editor extends Observable<EditorEvents> {
 			newState = EditorState.fromJSON(
 				{
 					schema: view.state.schema,
-					plugins: view.state.plugins,
+					plugins: view.state.plugins
 				},
-				stateOrJSON,
+				stateOrJSON
 			);
 		} else {
 			newState = stateOrJSON;
@@ -150,7 +148,7 @@ export class Editor extends Observable<EditorEvents> {
 	}
 
 	getExtension<K extends keyof Extensions>(name: K) {
-		const found = this.extensions.find(e => e.name === name);
+		const found = this.extensions.find((e) => e.name === name);
 		if (!found) {
 			throw Error(`@my-org/core: Could not find extension "${name}"`);
 		}
@@ -158,7 +156,7 @@ export class Editor extends Observable<EditorEvents> {
 	}
 
 	maybeGetExtension<K extends keyof Extensions>(name: K) {
-		return this.extensions.find(e => e.name === name) as Extensions[K] | undefined;
+		return this.extensions.find((e) => e.name === name) as Extensions[K] | undefined;
 	}
 
 	config(cb: (editor: Editor) => void) {
@@ -172,14 +170,14 @@ export class Editor extends Observable<EditorEvents> {
 		const newState = EditorState.create({
 			schema: created.schema,
 			plugins: created.plugins,
-			doc: props.doc ? created.schema.nodeFromJSON(props.doc) : undefined,
+			doc: props.doc ? created.schema.nodeFromJSON(props.doc) : undefined
 		});
 		let view = this._editorView;
 		if (view) {
 			// Recreate only extensions that have changed
 			if (props !== oldProps) {
-				oldProps?.extensions?.forEach(ext => {
-					if (!props.extensions?.find(e => e === ext)) {
+				oldProps?.extensions?.forEach((ext) => {
+					if (!props.extensions?.find((e) => e === ext)) {
 						if (ext.destroy) ext.destroy();
 					}
 				});
@@ -193,7 +191,7 @@ export class Editor extends Observable<EditorEvents> {
 					const oldEditorState = view!.state;
 					const newState = oldEditorState.apply(tr);
 					this.setState(newState);
-				},
+				}
 			});
 			view['editor'] = this;
 		} else {
@@ -207,8 +205,8 @@ export class Editor extends Observable<EditorEvents> {
 						const oldEditorState = this.editorView.state;
 						const newState = oldEditorState.apply(tr);
 						this.setState(newState);
-					},
-				},
+					}
+				}
 			);
 
 			view['editor'] = this;
@@ -218,15 +216,13 @@ export class Editor extends Observable<EditorEvents> {
 			state: this._editorView.state,
 			props,
 			editable: this._editorView.editable,
-			extObj: {},
+			extObj: {}
 		};
 		this.commands = { ...commands };
-		props.extensions?.forEach(async ext => {
+		props.extensions?.forEach(async (ext) => {
 			if (ext.init) ext.init(this);
-			// @ts-expect-error ext.name is not a string
 			this.data.extObj[ext.name] = ext;
 			if ('commands' in ext) {
-				// @ts-expect-error ext.name is not a string
 				this.commands[ext.name] = ext.commands;
 			}
 		});
@@ -239,7 +235,7 @@ export class Editor extends Observable<EditorEvents> {
 		const dom = this._editorView?.dom;
 		if (!dom) {
 			throw Error(
-				`@my-org/core: Can't recreate Editor, editorView.dom doesn't exist - has EditorView already been destroyed?`,
+				`@my-org/core: Can't recreate Editor, editorView.dom doesn't exist - has EditorView already been destroyed?`
 			);
 		}
 		return await this.run(dom, props);
@@ -247,7 +243,7 @@ export class Editor extends Observable<EditorEvents> {
 
 	destroy() {
 		this.emit('destroy', this);
-		this.extensions.forEach(e => {
+		this.extensions.forEach((e) => {
 			if (e.destroy) e.destroy();
 		});
 		this._editorView?.destroy();
