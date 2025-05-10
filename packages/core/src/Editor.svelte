@@ -58,16 +58,24 @@
 		const tr = state.tr;
 		const { schema } = state;
 		const nodes = schema.nodes;
+		// Try both approaches to ensure they both work
+		// Approach 1: Using attrs
 		tr.insert(
-			1,
-			// nodes.transcript.create({
-			// 	attrs: {
-			// 		id: 'transcript',
-			// 		text: 'Some transcript'
-			// 	}
-			// })
-			nodes.transcript.create(undefined, schema.text('Some transcript'))
+			9,
+			nodes.transcript.create({
+				id: 'transcript-1',
+				text: 'Some transcript with attrs'
+			})
 		);
+
+		// Approach 2: Using content
+		// tr.insert(
+		// 	9,
+		// 	nodes.transcript.create(
+		// 		{ id: 'transcript-2' },
+		// 		schema.text('Youtube transcript with content')
+		// 	)
+		// );
 		view.dispatch(tr);
 	}
 

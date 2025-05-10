@@ -4,11 +4,24 @@ import { mount } from 'svelte';
 import { htmlToDOMOutputSpec } from './htmlToDOMOutputSpec.js';
 import { getAttrsWithOutputSpec } from './getAttrsWithOutputSpec.js';
 
-export async function createNodeSpec(node: SveltePMNode<any>): Promise<NodeSpec> {
-	const { schema, component } = node;
+export async function createNodeSpec(pm_node: SveltePMNode<any>): Promise<NodeSpec> {
+	const { schema, component } = pm_node;
 	if (component && schema) {
-		const staticSpec = await createSpec(node);
-		schema.toDOM = () => {
+		const staticSpec = await createSpec(pm_node);
+		schema.toDOM = (node: PMNode) => {
+			// const div = document.createElement('div');
+			// const comp = (
+			// 	mount(component, {
+			// 		target: div,
+			// 		props: {
+			// 			attrs: node.attrs
+			// 		}
+			// 	}) as any
+			// ).then((comp: any) => {
+			// 	return htmlToDOMOutputSpec(comp.ref);
+			// });
+			// return spec as unknown as DOMOutputSpec;
+
 			const clonedSpec = [...staticSpec];
 
 			if (
@@ -55,7 +68,7 @@ export async function createSpec(node: SveltePMNode<any>): Promise<readonly [str
 		target: div,
 		props: {
 			attrs
-		} as any
+		}
 	})) as any;
 	const spec = htmlToDOMOutputSpec(comp.ref);
 	return spec as [string, ...any[]];

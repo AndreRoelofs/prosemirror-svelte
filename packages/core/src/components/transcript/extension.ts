@@ -1,5 +1,12 @@
-import { default as Transcript, transcriptAttrs, transcriptSchema } from './Transcript.svelte';
-import { SveltePMExtension } from '../../typings/extension.js';
+import {
+	default as Transcript,
+	transcriptAttrs,
+	transcriptSchema,
+	TranscriptAttrs
+} from './Transcript.svelte';
+import type { Component } from 'svelte';
+
+import { NodeProps, SveltePMExtension } from '../../typings/extension.js';
 
 export function transcriptExtension() {
 	return {

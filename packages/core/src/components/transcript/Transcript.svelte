@@ -1,7 +1,7 @@
 <script lang="ts" module>
 	import type { NodeSpec } from 'prosemirror-model';
 	import { Node as PMNode } from 'prosemirror-model';
-
+	import type { NodeProps } from '../../typings/extension.js';
 	export interface TranscriptAttrs {
 		id?: string;
 		text?: string;
@@ -17,44 +17,52 @@
 			(acc, [key, value]) => ({ ...acc, [key]: { default: value } }),
 			{}
 		),
-		content: 'inline*',
+		content: 'inline+',
 		group: 'inline',
 		atom: true,
-		inline: true
+		inline: true,
+		defining: true,
 
-		// parseDOM: [
-		// 	{
-		// 		tag: 'figure.transcript',
-		// 		getAttrs: (dom: HTMLElement | string) => {
-		// 			if (dom instanceof HTMLElement) {
-		// 				return {
-		// 					id: dom.getAttribute('id'),
-		// 					text: dom.getAttribute('text')
-		// 				};
-		// 			}
-		// 			return null;
-		// 		}
-		// 	}
-		// ],
-		// toDOM(node: PMNode) {
-		// 	const { id, text } = node.attrs;
-		// 	return ['figure', { id, class: 'transcript', text }, ['pre', text]];
-		// }
+		parseDOM: [
+			{
+				tag: 'span.transcript', // Changed from figure
+				getAttrs: (dom: HTMLElement | string) => {
+					if (dom instanceof HTMLElement) {
+						return {
+							id: dom.getAttribute('id'),
+							text: dom.getAttribute('text')
+						};
+					}
+					return null;
+				}
+			}
+		],
+		toDOM(node: PMNode) {
+			console.log('to dom');
+			const { id, text } = node.attrs;
+			return ['span', { id, class: 'transcript', attrs: { text } }, ['text', text]]; // Changed from figure and pre
+		}
 	};
 </script>
 
 <script lang="ts">
-	export interface Props {
-		attrs: TranscriptAttrs;
-		ref: HTMLElement;
-	}
+	// export interface Props extends NodeProps<TranscriptAttrs> {
+	// 	ref: HTMLElement;
+	// }
 
-	let { ref, attrs }: Props = $props();
+	let { ref, attrs }: NodeProps<TranscriptAttrs> = $props();
 
-	export { ref };
+	export { ref, attrs };
+
+	$effect(() => {
+		console.log(ref);
+		console.log(attrs.text);
+	});
 </script>
 
-<figure class="transcript" bind:this={ref} data-hole>{attrs.text}</figure>
+<span class="transcript" bind:this={ref} data-hole {...attrs}>
+	{attrs.text || ''}
+</span>
 
 <style lang="postcss">
 	.transcript {
