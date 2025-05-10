@@ -6,17 +6,22 @@ import { Plugin } from 'prosemirror-state';
 import { keymap } from 'prosemirror-keymap';
 import { schema as defaultSchema } from 'prosemirror-schema-basic';
 import { addListNodes } from 'prosemirror-schema-list';
+import { NodeViewConstructor } from 'prosemirror-view';
 
 export async function createExtensions(
 	editor: Editor,
 	extensions: SveltePMExtension[] = []
 ): Promise<ExtensionsData> {
 	const nodes: { [key: string]: NodeSpec } = {};
+	const nodeViews: { [key: string]: NodeViewConstructor } = {};
 	for (const ext of extensions) {
 		for (const nodeKey in ext.svelteNodes) {
 			// TODO: make sure the node is not duplicate
 			const node = ext.svelteNodes[nodeKey];
 			nodes[nodeKey] = await createNodeSpec(node);
+			if (node.nodeView) {
+				nodes[nodeKey].view = node.nodeView(editor);
+			}
 		}
 	}
 

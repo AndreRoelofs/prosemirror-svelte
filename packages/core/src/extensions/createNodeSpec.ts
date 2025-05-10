@@ -9,31 +9,30 @@ export async function createNodeSpec(pm_node: SveltePMNode<any>): Promise<NodeSp
 	if (component && schema) {
 		const staticSpec = await createSpec(pm_node);
 		schema.toDOM = (node: PMNode) => {
-			// const div = document.createElement('div');
-			// const comp = (
-			// 	mount(component, {
-			// 		target: div,
-			// 		props: {
-			// 			attrs: node.attrs
-			// 		}
-			// 	}) as any
-			// ).then((comp: any) => {
-			// 	return htmlToDOMOutputSpec(comp.ref);
-			// });
-			// return spec as unknown as DOMOutputSpec;
+			const div = document.createElement('div');
+			const comp = mount(component, {
+				target: div,
+				props: {
+					node,
+					attrs: node.attrs,
+					contentDOM: () => undefined
+				}
+			}) as any;
+			if (!comp.ref) return staticSpec;
+			const spec = htmlToDOMOutputSpec(comp.ref);
+			return spec as unknown as DOMOutputSpec;
+			// const clonedSpec = [...staticSpec];
 
-			const clonedSpec = [...staticSpec];
-
-			if (
-				typeof clonedSpec[1] === 'object' &&
-				clonedSpec[1] !== null &&
-				!Array.isArray(clonedSpec[1])
-			) {
-				clonedSpec[1] = { ...clonedSpec[1], ...node.attrs };
-			} else if (Object.keys(node.attrs).length > 0) {
-				clonedSpec.splice(1, 0, { ...node.attrs });
-			}
-			return clonedSpec as unknown as DOMOutputSpec;
+			// if (
+			// 	typeof clonedSpec[1] === 'object' &&
+			// 	clonedSpec[1] !== null &&
+			// 	!Array.isArray(clonedSpec[1])
+			// ) {
+			// 	clonedSpec[1] = { ...clonedSpec[1], ...node.attrs };
+			// } else if (Object.keys(node.attrs).length > 0) {
+			// 	clonedSpec.splice(1, 0, { ...node.attrs });
+			// }
+			// return clonedSpec as unknown as DOMOutputSpec;
 		};
 		schema.parseDOM = [
 			...(schema.parseDOM || []),

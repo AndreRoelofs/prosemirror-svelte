@@ -62,10 +62,13 @@
 		// Approach 1: Using attrs
 		tr.insert(
 			9,
-			nodes.transcript.create({
-				id: 'transcript-1',
-				text: 'Some transcript with attrs'
-			})
+			nodes.transcript.createChecked(
+				{
+					id: 'transcript-1',
+					text: 'Some transcript with attrs'
+				},
+				schema.text('transcript')
+			)
 		);
 
 		// Approach 2: Using content
@@ -76,7 +79,7 @@
 		// 		schema.text('Youtube transcript with content')
 		// 	)
 		// );
-		view.dispatch(tr);
+		view.dispatch && view.dispatch(tr);
 	}
 
 	export function cmd() {}

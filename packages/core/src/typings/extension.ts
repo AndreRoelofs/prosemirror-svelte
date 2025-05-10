@@ -1,8 +1,10 @@
 import { NodeSpec, Node as PMNode, Schema } from 'prosemirror-model';
 import type { Component } from 'svelte';
+import { MarkViewConstructor, NodeViewConstructor } from 'prosemirror-view';
 import { Plugin } from 'prosemirror-state';
-
+import { default as Editor } from '../Editor.svelte';
 export interface NodeProps<T> {
+	node: PMNode;
 	ref?: HTMLElement;
 	attrs: T;
 }
@@ -26,6 +28,8 @@ export interface SveltePMNode<T> {
 	schema: NodeSpec;
 	// component?: Component<NodeProps<T>>;
 	component?: Component<NodeProps<T>, {}, ''>;
+	nodeView?: (editor: Editor) => NodeViewConstructor;
+
 	// component?: Component;
 }
 

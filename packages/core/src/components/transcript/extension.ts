@@ -7,6 +7,7 @@ import {
 import type { Component } from 'svelte';
 
 import { NodeProps, SveltePMExtension } from '../../typings/extension.js';
+import { SvelteNodeView } from '../../SvelteNodeView.js';
 
 export function transcriptExtension() {
 	return {
@@ -15,7 +16,9 @@ export function transcriptExtension() {
 			transcript: {
 				attrs: transcriptAttrs,
 				schema: transcriptSchema,
-				component: Transcript
+				// component: Transcript,
+				nodeView: (editor: any) =>
+					SvelteNodeView.fromComponent(editor, Transcript as unknown as Component)
 			}
 		}
 	} satisfies SveltePMExtension;
