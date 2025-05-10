@@ -86,7 +86,9 @@
 		data-text={attrs.text}
 		onclick={handleClick}
 		onkeydown={handleKeyDown}
-	></div>
+	>
+		{attrs.text}
+	</div>
 </figure>
 
 <style lang="postcss">

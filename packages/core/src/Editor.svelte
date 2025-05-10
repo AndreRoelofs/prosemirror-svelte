@@ -39,14 +39,16 @@
 		query.extensions.push(transcriptExtension());
 
 		// @ts-ignore
-		const extensions = await createExtensions(this as any, query.extensions);
+		const created = await createExtensions(this as any, query.extensions);
 
 		view = new EditorView(editorRef, {
 			state: EditorState.create({
-				schema: extensions.schema,
-				plugins: [...exampleSetup({ schema: extensions.schema }), ...extensions.plugins],
-				doc: DOMParser.fromSchema(extensions.schema).parse(doc)
-			})
+				schema: created.schema,
+				plugins: [...created.plugins],
+				doc: DOMParser.fromSchema(created.schema).parse(doc)
+			}),
+			nodeViews: created.nodeViews,
+			markViews: created.markViews
 		});
 	}
 

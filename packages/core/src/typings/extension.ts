@@ -3,24 +3,48 @@ import type { Component } from 'svelte';
 import { MarkViewConstructor, NodeViewConstructor } from 'prosemirror-view';
 import { Plugin } from 'prosemirror-state';
 import { default as Editor } from '../Editor.svelte';
+import { Cmd } from './pm.js';
+import type { MarkSpec } from 'prosemirror-model';
+
 export interface NodeProps<T> {
 	node: PMNode;
 	ref?: HTMLElement;
 	attrs: T;
 }
 
-export interface ExtensionsData {
-	schema: Schema;
+export interface Initialized extends ExtensionData {
 	plugins: Plugin[];
+	schema: Schema;
+}
+
+export interface ExtensionData {
+	commands: { [name: string]: (...args: any[]) => Cmd };
+	marks: { [name: string]: MarkSpec };
+	markViews: { [name: string]: MarkViewConstructor };
 	nodes: { [name: string]: NodeSpec };
 	nodeViews: { [name: string]: NodeViewConstructor };
+	sortedKeymaps: { [key: string]: { cmd: Cmd; priority: number }[] };
+	svelteNodes: { [name: string]: SveltePMNode<any> };
+}
+export interface SveltePMMark {
+	schema?: MarkSpec;
+	markView?: MarkViewConstructor;
 }
 
 export interface SveltePMExtension {
 	name: string;
+	commands?: { [name: string]: (...args: any[]) => Cmd };
+	keymaps?: { [key: string]: Cmd | { cmd: Cmd; priority: number }[] };
+	store?: Record<string, any>;
+	marks?: {
+		[name: string]: SveltePMMark;
+	};
 	svelteNodes?: {
 		[name: string]: SveltePMNode<any>;
 	};
+	init?: (editor: Editor) => void;
+	plugins?: (editor: Editor, schema: Schema) => Plugin[];
+	destroy?: () => void;
 }
 
 export interface SveltePMNode<T> {
