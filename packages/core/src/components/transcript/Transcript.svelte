@@ -18,26 +18,28 @@
 			{}
 		),
 		content: 'inline*',
-		group: 'block',
+		group: 'inline',
 		atom: true,
-		parseDOM: [
-			{
-				tag: 'figure.transcript',
-				getAttrs: (dom: HTMLElement | string) => {
-					if (dom instanceof HTMLElement) {
-						return {
-							id: dom.getAttribute('id'),
-							text: dom.getAttribute('text')
-						};
-					}
-					return null;
-				}
-			}
-		],
-		toDOM(node: PMNode) {
-			const { id, text } = node.attrs;
-			return ['figure', { id, class: 'transcript', text }, ['pre', text]];
-		}
+		inline: true
+
+		// parseDOM: [
+		// 	{
+		// 		tag: 'figure.transcript',
+		// 		getAttrs: (dom: HTMLElement | string) => {
+		// 			if (dom instanceof HTMLElement) {
+		// 				return {
+		// 					id: dom.getAttribute('id'),
+		// 					text: dom.getAttribute('text')
+		// 				};
+		// 			}
+		// 			return null;
+		// 		}
+		// 	}
+		// ],
+		// toDOM(node: PMNode) {
+		// 	const { id, text } = node.attrs;
+		// 	return ['figure', { id, class: 'transcript', text }, ['pre', text]];
+		// }
 	};
 </script>
 
@@ -52,4 +54,12 @@
 	export { ref };
 </script>
 
-<figure class="transcript" bind:this={ref} data-hole {...attrs}></figure>
+<figure class="transcript" bind:this={ref} data-hole>{attrs.text}</figure>
+
+<style lang="postcss">
+	.transcript {
+		width: fit-content;
+		background-color: red;
+		padding: 5px;
+	}
+</style>

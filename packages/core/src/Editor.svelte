@@ -60,12 +60,13 @@
 		const nodes = schema.nodes;
 		tr.insert(
 			1,
-			nodes.transcript.create({
-				attrs: {
-					id: 'transcript-1',
-					text: 'transcript-1'
-				}
-			})
+			// nodes.transcript.create({
+			// 	attrs: {
+			// 		id: 'transcript',
+			// 		text: 'Some transcript'
+			// 	}
+			// })
+			nodes.transcript.create(undefined, schema.text('Some transcript'))
 		);
 		view.dispatch(tr);
 	}
