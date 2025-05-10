@@ -13,6 +13,7 @@ export interface ExtensionsData {
 	schema: Schema;
 	plugins: Plugin[];
 	nodes: { [name: string]: NodeSpec };
+	nodeViews: { [name: string]: NodeViewConstructor };
 }
 
 export interface SveltePMExtension {

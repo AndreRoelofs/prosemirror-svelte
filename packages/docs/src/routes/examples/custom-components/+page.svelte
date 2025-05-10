@@ -4,11 +4,13 @@
 	import type { Query } from '@prosemirror-svelte/core';
 	import { equationExtension } from '@my-org/ext-equation';
 	import { paragraphExtension } from '@my-org/ext-paragraph';
+	import { blockquoteExtension } from '@my-org/ext-blockquote';
+
 	let editorRef: ProsemirrorEditor | null = $state(null);
 
 	const exampleInput: Query = {
 		text: 'Where in ',
-		extensions: [equationExtension(), paragraphExtension()]
+		extensions: [paragraphExtension(), blockquoteExtension(), equationExtension()]
 		// extensions: []
 	};
 

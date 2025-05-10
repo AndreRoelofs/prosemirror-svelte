@@ -20,7 +20,7 @@ export async function createExtensions(
 			const node = ext.svelteNodes[nodeKey];
 			nodes[nodeKey] = await createNodeSpec(node);
 			if (node.nodeView) {
-				nodes[nodeKey].view = node.nodeView(editor);
+				nodeViews[nodeKey] = node.nodeView(editor);
 			}
 		}
 	}
@@ -38,14 +38,28 @@ export async function createExtensions(
 	// 	marks: extData.marks
 	// });
 	const schema = new Schema({
-		nodes: addListNodes(defaultSchema.spec.nodes, 'paragraph block*', 'block').append(nodes),
+		nodes: {
+			doc: {
+				content: 'block+'
+			},
+			text: {
+				group: 'inline'
+			},
+			...nodes
+		},
 		marks: defaultSchema.spec.marks
 	});
+
+	// const schema = new Schema({
+	// 	nodes: addListNodes(defaultSchema.spec.nodes, 'paragraph block*', 'block').append(nodes),
+	// 	marks: defaultSchema.spec.marks
+	// });
 
 	const plugins: Plugin[] = [];
 
 	return {
 		nodes,
+		nodeViews,
 		schema,
 		plugins
 	};

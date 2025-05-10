@@ -144,6 +144,9 @@ importers:
 
   packages/docs:
     devDependencies:
+      '@my-org/ext-blockquote':
+        specifier: workspace:*
+        version: link:../ext-blockquote
       '@my-org/ext-equation':
         specifier: workspace:*
         version: link:../ext-equation
@@ -168,6 +171,48 @@ importers:
       '@sveltejs/kit':
         specifier: ^2.20.4
         version: 2.20.8(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.28.2)(vite@6.3.5(@types/node@22.15.5)(jiti@2.4.2)))(svelte@5.28.2)(vite@6.3.5(@types/node@22.15.5)(jiti@2.4.2))
+
+  packages/ext-blockquote:
+    devDependencies:
+      '@prosemirror-svelte/core':
+        specifier: workspace:*
+        version: link:../core
+      '@sveltejs/kit':
+        specifier: ^2.5.7
+        version: 2.20.8(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.28.2)(vite@6.3.5(@types/node@22.15.5)(jiti@2.4.2)))(svelte@5.28.2)(vite@6.3.5(@types/node@22.15.5)(jiti@2.4.2))
+      '@sveltejs/package':
+        specifier: ^2.3.1
+        version: 2.3.11(svelte@5.28.2)(typescript@5.8.3)
+      prosemirror-commands:
+        specifier: ^1.5.2
+        version: 1.7.1
+      prosemirror-keymap:
+        specifier: ^1.2.2
+        version: 1.2.3
+      prosemirror-model:
+        specifier: ^1.20.0
+        version: 1.25.1
+      prosemirror-state:
+        specifier: ^1.4.3
+        version: 1.4.3
+      prosemirror-transform:
+        specifier: ^1.8.0
+        version: 1.10.4
+      prosemirror-view:
+        specifier: ^1.33.5
+        version: 1.39.2
+      svelte:
+        specifier: ^5.28.2
+        version: 5.28.2
+      svelte-check:
+        specifier: ^4.1.7
+        version: 4.1.7(picomatch@4.0.2)(svelte@5.28.2)(typescript@5.8.3)
+      svelte-preprocess:
+        specifier: ^6.0.3
+        version: 6.0.3(postcss@8.5.3)(svelte@5.28.2)(typescript@5.8.3)
+      svelte2tsx:
+        specifier: ^0.7.7
+        version: 0.7.37(svelte@5.28.2)(typescript@5.8.3)
 
   packages/ext-equation:
     dependencies:
