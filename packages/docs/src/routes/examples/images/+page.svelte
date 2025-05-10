@@ -1,4 +1,4 @@
-<script lang="ts">
+<!-- <script lang="ts">
 	import { onMount } from 'svelte';
 	import type { EditorState } from 'prosemirror-state';
 	import {
@@ -83,4 +83,4 @@
 	:global(.ui-editor img) {
 		max-width: 300px;
 	}
-</style>
+</style> -->

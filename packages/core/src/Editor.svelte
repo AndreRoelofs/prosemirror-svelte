@@ -19,6 +19,8 @@
 	let editorRef: HTMLDivElement | null = $state(null);
 	let view: EditorView | null = null;
 
+	export { view };
+
 	let { query, placeholder }: Props = $props();
 
 	onMount(() => {

@@ -1,4 +1,4 @@
-<script lang="ts">
+<!-- <script lang="ts">
 	import { onMount } from 'svelte';
 	import type { EditorState } from 'prosemirror-state';
 
@@ -65,9 +65,7 @@
 
 	const currentMarks = $derived(editorState ? getCurrentMarks(editorState) : null);
 	const activeMarks = $derived(currentMarks ? Object.keys(currentMarks.activeMarks) : []);
-	const nodeAtSelectionHead = $derived(
-		editorState ? getNodeTypeAtSelectionHead(editorState) : {}
-	);
+	const nodeAtSelectionHead = $derived(editorState ? getNodeTypeAtSelectionHead(editorState) : {});
 	const activeBlockType = $derived(getBlockType(nodeAtSelectionHead));
 	const isBold = $derived(
 		currentMarks && currentMarks.activeMarks && currentMarks.activeMarks.strong
@@ -127,14 +125,10 @@
 	Additional information about the current editor instance:
 
 	<ul>
-		<!-- Show which marks are currently active, e.g. to highlight a menu button -->
 		<li>
-			<b>Active marks: </b>{activeMarks && activeMarks.length
-				? activeMarks.toString()
-				: 'none'}
+			<b>Active marks: </b>{activeMarks && activeMarks.length ? activeMarks.toString() : 'none'}
 		</li>
 
-		<!-- Show which type of node is currently active at the selection head, e.g. to highlight a menu button menu -->
 		<li>
 			<b>Type of node at selection head:</b>
 			{activeBlockType}
@@ -151,4 +145,4 @@
 
 {#if showEditorState}
 	<pre>{JSON.stringify(toJSON(editorState), null, 2)}</pre>
-{/if}
+{/if} -->

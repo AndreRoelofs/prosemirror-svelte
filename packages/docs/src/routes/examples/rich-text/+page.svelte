@@ -1,4 +1,4 @@
-<script lang="ts">
+<!-- <script lang="ts">
 	import { onMount } from 'svelte';
 	import type { EditorState } from 'prosemirror-state';
 	import {
@@ -65,4 +65,4 @@
 	<button onclick={resetEditor}>Reset</button>
 	<button onclick={showHtml}>Show HTML</button>
 	<button onclick={showText}>Show Text</button>
-</div>
+</div> -->

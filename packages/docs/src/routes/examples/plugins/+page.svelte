@@ -1,4 +1,4 @@
-<script lang="ts">
+<!-- <script lang="ts">
 	import { onMount } from 'svelte';
 	import { Plugin, PluginKey } from 'prosemirror-state';
 
@@ -79,4 +79,4 @@
 	pre {
 		padding: 0.5em;
 	}
-</style>
+</style> -->
