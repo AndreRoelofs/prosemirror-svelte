@@ -1,13 +1,8 @@
-import {
-	default as Transcript,
-	transcriptAttrs,
-	transcriptSchema,
-	TranscriptAttrs
-} from './Transcript.svelte';
+import { default as Transcript, transcriptAttrs, transcriptSchema } from './Transcript.svelte';
 import type { Component } from 'svelte';
 
-import { NodeProps, SveltePMExtension } from '../../typings/extension.js';
-import { SvelteNodeView } from '../../SvelteNodeView.js';
+import { SveltePMExtension } from '@prosemirror-svelte/core';
+import { SvelteNodeView } from '@prosemirror-svelte/core';
 
 export function transcriptExtension() {
 	return {
