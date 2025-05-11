@@ -1,14 +1,10 @@
 <script lang="ts">
-	import { EditorState, Transaction } from 'prosemirror-state';
-	import { Schema, DOMParser, Node } from 'prosemirror-model';
+	import { EditorState } from 'prosemirror-state';
+	import { DOMParser } from 'prosemirror-model';
 	import { EditorView } from 'prosemirror-view';
-	import { schema } from 'prosemirror-schema-basic';
-	import { addListNodes } from 'prosemirror-schema-list';
-	import { exampleSetup } from 'prosemirror-example-setup';
 	import { onDestroy, onMount } from 'svelte';
 	import type { Query } from './typings/index.js';
 	import { createExtensions } from './createExtensions.js';
-	import { transcriptExtension } from './components/transcript/extension.js';
 	import { paragraphExtension } from './components/paragraph/extension.js';
 	import './Editor.css';
 
@@ -38,7 +34,6 @@
 		doc.textContent = query.text;
 
 		query.extensions.unshift(paragraphExtension());
-		query.extensions.push(transcriptExtension());
 
 		// @ts-ignore
 		const created = await createExtensions(this as any, query.extensions);
