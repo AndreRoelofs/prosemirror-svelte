@@ -5,13 +5,18 @@
 	import { paragraphExtension } from '@my-org/ext-paragraph';
 	import { blockquoteExtension } from '@my-org/ext-blockquote';
 	import { transcriptExtension } from '@my-org/ext-transcript';
+	import { onMount } from 'svelte';
 
 	let editorRef: ProsemirrorEditor | null = $state(null);
 
 	const exampleInput: Query = {
 		text: 'Where in ',
-		extensions: [equationExtension(), transcriptExtension()]
+		extensions: [equationExtension()]
 	};
+
+	onMount(() => {
+		editorRef?.init(exampleInput);
+	});
 
 	// const exampleInput =
 	// 	'Where in <transcript text="Some Transcript"/> is the following topic discussed <google-drive title="Some file"/>';
@@ -58,9 +63,14 @@
 		// );
 		editorRef?.view.dispatch(tr);
 	}
+
+	function addTranscriptExtension() {
+		exampleInput.extensions.push(transcriptExtension());
+		editorRef?.init(exampleInput);
+	}
 </script>
 
-<ProsemirrorEditor bind:this={editorRef} query={exampleInput} />
+<ProsemirrorEditor bind:this={editorRef} />
 
 <div class="controls">
 	<button onclick={clear}>Clear</button>
@@ -68,7 +78,7 @@
 	<button>Select all</button>
 	<button onclick={focus}>Focus</button>
 	<button onclick={addTranscriptNode}>Add transcript</button>
-	<button onclick={addEquationNode}>Add equation</button>
+	<button onclick={addTranscriptExtension}>Add transcript extension</button>
 </div>
 
 <!-- <div class="mirror">Current plain text content of the editor: "{textContent}"</div> -->

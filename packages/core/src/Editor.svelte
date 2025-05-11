@@ -24,14 +24,9 @@
 		init();
 	});
 
-	async function init() {
-		// const mySchema = new Schema({
-		// 	nodes: addListNodes(schema.spec.nodes, 'paragraph block*', 'block'),
-		// 	marks: schema.spec.marks
-		// });
-
+	export async function init(query?: Query) {
 		const doc = document.createElement('p');
-		doc.textContent = query.text;
+		doc.textContent = query?.text ?? '';
 
 		query.extensions.unshift(paragraphExtension());
 
@@ -81,6 +76,10 @@
 		// 	)
 		// );
 		view.dispatch && view.dispatch(tr);
+	}
+
+	export function sendQuery(query: Query) {
+		init(query);
 	}
 
 	export function cmd() {}
