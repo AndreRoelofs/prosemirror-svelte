@@ -10,7 +10,7 @@
 	import './Editor.css';
 
 	export interface Props {
-		query: Query;
+		query?: Query;
 		placeholder?: string;
 	}
 
@@ -63,9 +63,8 @@
 
 	export async function updateExtensions(newQuery: Query) {
 		if (!view) return;
-
 		// Make a copy of the extensions to avoid modifying the original
-		const newExtensions = [...newQuery.extensions];
+		const newExtensions = [...(newQuery.extensions ?? [])];
 
 		// Add paragraph extension if not already present
 		if (!newExtensions.some((ext) => ext.name === 'paragraph')) {
@@ -77,7 +76,7 @@
 
 		if (!extensionsChanged) {
 			// If extensions haven't changed, just update the content if needed
-			if (newQuery.text !== query.text) {
+			if (newQuery.text !== query?.text) {
 				const doc = document.createElement('p');
 				doc.textContent = newQuery.text;
 
@@ -160,32 +159,25 @@
 
 	export function addTranscriptNode() {
 		if (!view) return;
-		const state = view.state;
+		const state = view.state as EditorState;
 		const tr = state.tr;
 		const { schema } = state;
 		const nodes = schema.nodes;
-		// Try both approaches to ensure they both work
-		// Approach 1: Using attrs
+
+		const position = state.selection.$from;
+
 		tr.insert(
-			9,
+			position.pos - position.textOffset,
 			nodes.transcript.createChecked(
 				{
 					id: 'transcript-1',
 					text: 'Some transcript with attrs'
 				},
-				schema.text('transcript')
+				schema.text(' transcript')
 			)
 		);
 
-		// Approach 2: Using content
-		// tr.insert(
-		// 	9,
-		// 	nodes.transcript.create(
-		// 		{ id: 'transcript-2' },
-		// 		schema.text('Youtube transcript with content')
-		// 	)
-		// );
-		view.dispatch && view.dispatch(tr);
+		view?.dispatch(tr);
 	}
 
 	export function sendQuery(newQuery: Query) {
