@@ -23,7 +23,7 @@
 
 		parseDOM: [
 			{
-				tag: 'figure.transcript', // Changed from figure
+				tag: 'span.transcript', // Changed from figure
 				getAttrs: (dom: HTMLElement | string) => {
 					if (dom instanceof HTMLElement) {
 						return {
@@ -37,7 +37,7 @@
 		],
 		toDOM(node: PMNode) {
 			const { id, text } = node.attrs;
-			return ['figure', { id, class: 'transcript', pre: text }, ['text', text]];
+			return ['span', { id, class: 'transcript', pre: text }, text];
 		}
 	};
 </script>
@@ -60,7 +60,7 @@
 	});
 
 	function handleClick(event: MouseEvent) {
-		console.log('click');
+		alert('some longer script');
 		event.preventDefault();
 	}
 
@@ -70,7 +70,7 @@
 	}
 </script>
 
-<figure
+<span
 	role="button"
 	class="transcript"
 	onclick={handleClick}
@@ -79,17 +79,8 @@
 	{...attrs}
 	onkeydown={handleKeyDown}
 >
-	<div
-		class="equation"
-		role="button"
-		tabindex="-1"
-		data-text={attrs.text}
-		onclick={handleClick}
-		onkeydown={handleKeyDown}
-	>
-		{attrs.text}
-	</div>
-</figure>
+	{attrs.text}
+</span>
 
 <style lang="postcss">
 	:global(.transcript) {
