@@ -62,18 +62,6 @@ export async function createExtensions(
 		}
 	}
 
-	// const schema = new Schema({
-	// 	nodes: {
-	// 		doc: {
-	// 			content: 'block+'
-	// 		},
-	// 		text: {
-	// 			group: 'inline'
-	// 		},
-	// 		...nodes
-	// 	}
-	// 	marks: extData.marks
-	// });
 	const schema = new Schema({
 		nodes: {
 			doc: {

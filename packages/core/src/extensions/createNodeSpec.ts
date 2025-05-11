@@ -21,18 +21,6 @@ export async function createNodeSpec(pm_node: SveltePMNode<any>): Promise<NodeSp
 			if (!comp.ref) return staticSpec;
 			const spec = htmlToDOMOutputSpec(comp.ref);
 			return spec as unknown as DOMOutputSpec;
-			// const clonedSpec = [...staticSpec];
-
-			// if (
-			// 	typeof clonedSpec[1] === 'object' &&
-			// 	clonedSpec[1] !== null &&
-			// 	!Array.isArray(clonedSpec[1])
-			// ) {
-			// 	clonedSpec[1] = { ...clonedSpec[1], ...node.attrs };
-			// } else if (Object.keys(node.attrs).length > 0) {
-			// 	clonedSpec.splice(1, 0, { ...node.attrs });
-			// }
-			// return clonedSpec as unknown as DOMOutputSpec;
 		};
 		schema.parseDOM = [
 			...(schema.parseDOM || []),
