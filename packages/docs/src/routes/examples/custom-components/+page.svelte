@@ -15,7 +15,7 @@
 	};
 
 	onMount(() => {
-		editorRef?.init(exampleInput);
+		editorRef?.sendQuery(exampleInput);
 	});
 
 	// const exampleInput =
@@ -66,7 +66,7 @@
 
 	function addTranscriptExtension() {
 		exampleInput.extensions.push(transcriptExtension());
-		editorRef?.init(exampleInput);
+		editorRef?.sendQuery(exampleInput);
 	}
 </script>
 
