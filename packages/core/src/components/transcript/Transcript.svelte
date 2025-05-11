@@ -44,7 +44,6 @@
 
 <script lang="ts">
 	import type { SvelteNodeViewProps } from '../../SvelteNodeView.js';
-	import { onMount } from 'svelte';
 	export interface Props extends SvelteNodeViewProps<TranscriptAttrs> {
 		ref: HTMLElement;
 		attrs: TranscriptAttrs;
@@ -54,18 +53,12 @@
 
 	export { ref, attrs };
 
-	onMount(() => {
-		console.log(ref);
-		console.log(attrs.text);
-	});
-
 	function handleClick(event: MouseEvent) {
 		alert('some longer script');
 		event.preventDefault();
 	}
 
 	function handleKeyDown(event: KeyboardEvent) {
-		console.log('keydown');
 		event.preventDefault();
 	}
 </script>

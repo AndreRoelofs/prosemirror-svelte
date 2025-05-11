@@ -10,7 +10,8 @@
 
 	const exampleInput: Query = {
 		text: 'Where in ',
-		extensions: [paragraphExtension(), blockquoteExtension(), equationExtension()]
+		// extensions: [paragraphExtension(), blockquoteExtension(), equationExtension()]
+		extensions: [blockquoteExtension(), equationExtension()]
 		// extensions: []
 	};
 

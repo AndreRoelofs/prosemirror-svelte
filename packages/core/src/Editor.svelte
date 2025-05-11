@@ -9,6 +9,7 @@
 	import type { Query } from './typings/index.js';
 	import { createExtensions } from './createExtensions.js';
 	import { transcriptExtension } from './components/transcript/extension.js';
+	import { paragraphExtension } from './components/paragraph/extension.js';
 	import './Editor.css';
 
 	export interface Props {
@@ -36,6 +37,7 @@
 		const doc = document.createElement('p');
 		doc.textContent = query.text;
 
+		query.extensions.unshift(paragraphExtension());
 		query.extensions.push(transcriptExtension());
 
 		// @ts-ignore
